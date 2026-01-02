@@ -1,11 +1,10 @@
 import { useState, useEffect } from 'react';
 import type {dailyHabits} from '../types/types';
-import { getCurrentDate } from '../date';
+import { getCurregetDateStringntDate } from '../date';
 import NumericHabit from './NumericHabit';
 import BinaryHabit from './BinaryHabit';
 
-const today: string = getCurrentDate();
-
+const today: string = getDateString();
 const dailyHabitList: dailyHabits[] = [
   {
     Habit: 'IC',

@@ -1,15 +1,18 @@
-
-interface Habit { 
+export interface dailyHabits {
     Habit: string;
     Date: string; // MM/DD/YYYY format
-}
-
-export interface dailyHabits extends  Habit {
     Completed: number;
     MaxLevels?: number; // optional field for habits that track levels
 };
-export interface weeklyHabits extends Habit {
-    DayOfWeek: string; // 'M' | 'Tu' | 'W' | 'Th' | 'F' | 'Sa' | 'Su';
+
+export interface weeklyHabits { 
+    Habit: string;
+    Date: string; // MM/DD/YYYY format
+};
+
+export interface weeklyHabitKey {
+    Habit: string;
+    color: string;
 };
 
 
