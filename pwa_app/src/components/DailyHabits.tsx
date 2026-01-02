@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import type {dailyHabits} from '../types/types';
-import { getCurregetDateStringntDate } from '../date';
+import { getDateString } from '../date';
 import NumericHabit from './NumericHabit';
 import BinaryHabit from './BinaryHabit';
 
