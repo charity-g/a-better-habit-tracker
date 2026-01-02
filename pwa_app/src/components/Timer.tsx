@@ -2,10 +2,10 @@ import React, { useEffect, useRef, useState } from 'react';
 
 type TimerProps = {
   hasStarted: boolean;
-  setHasStarted: (value: boolean) => void;
+  onStart: (value: boolean) => void;
 };
 
-function Timer({ hasStarted, setHasStarted }: TimerProps) {
+function Timer({ hasStarted, onStart }: TimerProps) {
   const [elapsedMs, setElapsedMs] = useState(0);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -23,7 +23,7 @@ function Timer({ hasStarted, setHasStarted }: TimerProps) {
   }, [hasStarted]);
 
   const handleReset = () => {
-    setHasStarted(false);
+    onStart(false);
     setElapsedMs(0);
   };
 
@@ -40,7 +40,7 @@ function Timer({ hasStarted, setHasStarted }: TimerProps) {
       <span style={{ fontVariantNumeric: 'tabular-nums', fontSize: '1.5rem' }}>
         {format(elapsedMs)}
       </span>
-      <button onClick={() => setHasStarted((s) => !s)}>
+      <button onClick={() => onStart((s) => !s)}>
         {hasStarted ? 'Pause' : 'Start'}
       </button>
       <button onClick={handleReset} disabled={elapsedMs === 0 && !hasStarted}>
