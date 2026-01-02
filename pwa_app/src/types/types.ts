@@ -5,6 +5,11 @@ export interface dailyHabits {
     MaxLevels?: number; // optional field for habits that track levels
 };
 
+export interface dayOfTheWeek {
+  date: string // MM/DD/YYYY
+  habits: string[]
+}
+
 export interface weeklyHabits { 
     Habit: string;
     Date: string; // MM/DD/YYYY format
