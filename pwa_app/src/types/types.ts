@@ -1,6 +1,10 @@
-export interface dailyHabits {
-    Habit: string;
+interface trackable {
     Date: string; // MM/DD/YYYY format
+    Uploaded?: boolean; // optional field to indicate if the habit has been stored remotely
+}
+
+export interface dailyHabits extends trackable {
+    Habit: string;
     Completed: number;
     MaxLevels?: number; // optional field for habits that track levels
 };
@@ -10,9 +14,8 @@ export interface dayOfTheWeek {
   habits: string[]
 }
 
-export interface weeklyHabits { 
+export interface weeklyHabits extends trackable { 
     Habit: string;
-    Date: string; // MM/DD/YYYY format
 };
 
 export interface weeklyHabitKey {
@@ -21,15 +24,13 @@ export interface weeklyHabitKey {
 };
 
 
-export interface timedTask {
+export interface timedTask extends trackable {
     Topic: string;
     Task:  string;
     hours: number;
-    Date: string; // MM/DD/YYYY format
 }
 
-export interface prayerLog {
+export interface prayerLog extends trackable {
     Person: string;
     Request: string;
-    DateMade: string; // MM/DD/YYYY format
 }

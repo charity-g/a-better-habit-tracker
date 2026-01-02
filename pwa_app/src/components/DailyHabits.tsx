@@ -1,39 +1,12 @@
 import { useState, useEffect } from 'react';
+import { fetchDailyHabits } from '../api/submitDailyHabits';
 import type {dailyHabits} from '../types/types';
-import { getDateString } from '../date';
 import NumericHabit from './NumericHabit';
 import BinaryHabit from './BinaryHabit';
 
-const today: string = getDateString();
-const dailyHabitList: dailyHabits[] = [
-  {
-    Habit: 'IC',
-    Date: today,
-    MaxLevels: 3,
-    Completed: 0,
-  }, 
-  {
-    Habit: 'S',
-    Date: today,
-    Completed: 0,
-  }, 
-  {
-    Habit: 'Eyes',
-    Date: today,
-    Completed: 0,
-  }, 
-  {
-    Habit: 'P',
-    Date: today,
-    MaxLevels: 5,
-    Completed: 0,
-  },
-
-];
-
 
 function DailyHabits() {
-  const [habits, setHabits] = useState(dailyHabitList);
+  const [habits, setHabits] = useState(fetchDailyHabits());
   console.log("DailyHabits rendered", habits);
   function submit(data: object) {
     console.log("Submitting:", data);
