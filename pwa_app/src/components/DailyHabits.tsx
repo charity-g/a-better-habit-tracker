@@ -24,11 +24,6 @@ const dailyHabitList: dailyHabits[] = [
     Completed: 0,
   }, 
   {
-    Habit: 'Eyes',
-    Date: today,
-    Completed: 0,
-  }, 
-  {
     Habit: 'P',
     Date: today,
     MaxLevels: 5,
@@ -40,7 +35,7 @@ const dailyHabitList: dailyHabits[] = [
 
 function DailyHabits() {
   const [habits, setHabits] = useState(dailyHabitList);
-
+  console.log("DailyHabits rendered", habits);
   function submit(data: object) {
     console.log("Submitting:", data);
   }
@@ -49,7 +44,7 @@ function DailyHabits() {
     submit(habits);
   }, [habits]);
 
-  function updateItem(habit_name, patch) {
+  function updateItem(habit_name: string, patch: Partial<dailyHabits>) {
     setHabits((prev) =>
       prev.map((habit) =>
         habit.Habit === habit_name ? { ...habit, ...patch } : habit
