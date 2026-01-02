@@ -1,0 +1,6 @@
+{
+  "name": "a better habit tracker",
+  "short_name": "better habits",
+  "start_url": ".",
+  "display": "standalone"
+}

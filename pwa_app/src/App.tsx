@@ -1,9 +1,13 @@
 import './App.css'
+import DailyHabits from './components/DailyHabits.tsx'
+
 
 function App() {
   return (
-    <div className="text-red-800 min-h-screen flex items-center justify-center">
-        App.tsx
+    <div >
+      
+        <DailyHabits />
+        <WeeklyHabits />
     </div>
   )
 }
