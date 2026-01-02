@@ -9,7 +9,7 @@ type TimerProps = {
 const Timer: React.FC<TimerProps> = ({ onStart, onEnd, taskName }) => {
   const [isRunning, setIsRunning] = useState(false);
   const [elapsed, setElapsed] = useState(0);
-  const intervalRef = useRef<NodeJS.Timeout | null>(null);
+  const intervalRef = useRef<number | null>(null);
 
   useEffect(() => {
     if (!isRunning) return;
