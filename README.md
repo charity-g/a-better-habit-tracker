@@ -8,3 +8,4 @@
 - [ ] connect to google dev api
 - [ ] refactor state to tanstack query
 - [ ] work on ui
+- [ ] deployment: Loading module from “https://a-better-habit-tracker.netlify.app/src/main.tsx” was blocked because of a disallowed MIME type (“application/octet-stream”).
