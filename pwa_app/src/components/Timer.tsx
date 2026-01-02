@@ -1,53 +1,58 @@
 import React, { useEffect, useRef, useState } from 'react';
 
 type TimerProps = {
-  hasStarted: boolean;
-  onStart: (value: boolean) => void;
+  onStart: (elapsedSeconds: number) => void;
+  onEnd: () => void;
+  taskName?: string;
 };
 
-function Timer({ hasStarted, onStart }: TimerProps) {
-  const [elapsedMs, setElapsedMs] = useState(0);
+const Timer: React.FC<TimerProps> = ({ onStart, onEnd, taskName }) => {
+  const [isRunning, setIsRunning] = useState(false);
+  const [elapsed, setElapsed] = useState(0);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
-    if (hasStarted && !intervalRef.current) {
-      intervalRef.current = setInterval(() => setElapsedMs((t) => t + 1000), 1000);
-    }
-    if (!hasStarted && intervalRef.current) {
-      clearInterval(intervalRef.current);
-      intervalRef.current = null;
-    }
+    if (!isRunning) return;
+    intervalRef.current = setInterval(() => {
+      setElapsed((prev) => {
+        const next = prev + 1;
+        onStart(next);
+        return next;
+      });
+    }, 1000);
     return () => {
       if (intervalRef.current) clearInterval(intervalRef.current);
     };
-  }, [hasStarted]);
+  }, [isRunning, onStart]);
 
-  const handleReset = () => {
-    onStart(false);
-    setElapsedMs(0);
+  const handleStart = () => {
+    if (isRunning) return;
+    setIsRunning(true);
   };
 
-  const format = (ms: number) => {
-    const totalSeconds = Math.floor(ms / 1000);
-    const hh = String(Math.floor(totalSeconds / 3600)).padStart(2, '0');
-    const mm = String(Math.floor((totalSeconds % 3600) / 60)).padStart(2, '0');
-    const ss = String(totalSeconds % 60).padStart(2, '0');
-    return `${hh}:${mm}:${ss}`;
+  const handleStop = () => {
+    if (intervalRef.current) clearInterval(intervalRef.current);
+    setIsRunning(false);
+    onStart(elapsed); // ensure parent has the final elapsed value
+    onEnd();
+  };
+
+  const handleReset = () => {
+    if (intervalRef.current) clearInterval(intervalRef.current);
+    setIsRunning(false);
+    setElapsed(0);
+    onStart(0);
   };
 
   return (
-    <div style={{ display: 'inline-flex', gap: '0.5rem', alignItems: 'center' }}>
-      <span style={{ fontVariantNumeric: 'tabular-nums', fontSize: '1.5rem' }}>
-        {format(elapsedMs)}
-      </span>
-      <button onClick={() => onStart((s) => !s)}>
-        {hasStarted ? 'Pause' : 'Start'}
-      </button>
-      <button onClick={handleReset} disabled={elapsedMs === 0 && !hasStarted}>
-        Reset
-      </button>
+    <div>
+      <div>Task: {taskName || 'Unnamed task'}</div>
+      <div>Elapsed: {elapsed}s</div>
+      <button onClick={handleStart} disabled={isRunning}>Start</button>
+      <button onClick={handleStop} disabled={!isRunning}>Stop</button>
+      <button onClick={handleReset}>Reset</button>
     </div>
   );
-}
+};
 
 export default Timer;

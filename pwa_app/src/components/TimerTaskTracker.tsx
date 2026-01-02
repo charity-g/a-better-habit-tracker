@@ -3,7 +3,8 @@ import Timer from './Timer';
 import { submitTask } from '../api/submitTask';
 
 function TimerTaskTracker() {
-  const [hasStarted, setHasStarted] = useState(false);
+  const [timeElapsed, setTimeElapsed] = useState(0);
+  const [topic, setTopic] = useState('');
   const [taskName, setTaskName] = useState('');
   const [debouncedTaskName, setDebouncedTaskName] = useState('');
 
@@ -13,9 +14,9 @@ function TimerTaskTracker() {
   }, [taskName]);
 
   function setHasEnded() {
-    submitTask(debouncedTaskName);
+    submitTask(debouncedTaskName, timeElapsed);
     setTaskName('');
-    setHasStarted(false);
+    setTimeElapsed(0);
   }
   
   
@@ -23,11 +24,17 @@ function TimerTaskTracker() {
     <div>
       <input
         type="text"
+        value={topic}
+        placeholder="Topic"
+        onChange={(e) => setTopic(e.target.value)}
+      />
+      <input
+        type="text"
         value={taskName}
         placeholder="Task name"
         onChange={(e) => setTaskName(e.target.value)}
       />
-      <Timer hasStarted={hasStarted} onStart={setHasStarted} onEnd={setHasEnded}  taskName={debouncedTaskName} />
+      <Timer onStart={setTimeElapsed} onEnd={setHasEnded}  taskName={debouncedTaskName} />
     </div>
   )
 }
