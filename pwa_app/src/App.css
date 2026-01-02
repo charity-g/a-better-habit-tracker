@@ -1,5 +1,30 @@
 
 
+/* FLOATING   */
+
+  .floating {
+            width: 100px;
+            height: 100px;
+            position: relative;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-20px);
+            }
+
+            100% {
+                transform: translateY(0);
+            }
+        }
+
+/* BACKGROUND */
+
 .custom-background {
     background: linear-gradient(257deg, #131200, #78bc61, #c0c781, #c59b76);
     background-size: 800% 800%;

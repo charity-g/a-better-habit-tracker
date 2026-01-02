@@ -25,23 +25,28 @@ function DailyHabits() {
   }
 
   return (
-    <div className="flex flex-wrap flex-row justify-around gap-4">
+    <div className="w-screen grid grid-cols-4 pr-4">
       {habits.map((habit, i) => {
+        const style = { animationDelay: `${i * 0.2}s` };
         if (habit.MaxLevels) {
           return (
-            <NumericHabit
-              key={i}
-              habit={habit}
-              updateItem={updateItem}
-            />
+            <div className="floating" style={style}>
+              <NumericHabit
+                key={i}
+                habit={habit}
+                updateItem={updateItem}
+              />
+            </div>
           );
         } else {
           return (
-            <BinaryHabit
-              key={i}
-              habit={habit}
-              updateItem={updateItem}
-            />
+            <div className="floating" style={style}>
+              <BinaryHabit
+                key={i}
+                habit={habit}
+                updateItem={updateItem}
+              />
+            </div>
           );
         }
       })}
