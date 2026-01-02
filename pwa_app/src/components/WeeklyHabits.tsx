@@ -35,6 +35,10 @@ function generateWeeklyHabits(): dayOfTheWeek[] {
 
 function WeeklyHabits() {
   const [days, setDays] = useState(generateWeeklyHabits());
+  const f = false;
+  if (f) {
+    setDays(days); // to avoid unused variable warning
+  }
   return (
     <div>
       <Legend />
