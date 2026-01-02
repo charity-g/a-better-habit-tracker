@@ -1,8 +1,8 @@
 function DailyHabits() {
   return (
-    <div>
+    <form>
         
-    </div>
+    </form>
   )
 }
 
