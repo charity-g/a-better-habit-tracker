@@ -7,9 +7,13 @@ interface NumericHabitProps {
 
 export default function NumericHabit(props: NumericHabitProps) {
     return (
-        <div>
-            Numeric Habit Component
-            <input type="number"
+        <div className="flex flex-col justify-center items-center">
+             <label>{props.habit.Habit}</label>
+        <div className="bg-[#E7745F] h-15 w-15 my-2 rounded-full flex justify-center items-center flex-col shadow-lg">
+           
+            <input
+                className="text-white font-bold text-center pointer-events-none bg-transparent w-12"
+                type="number"
                 value={props.habit.Completed}
                 min={0}
                 max={props.habit.MaxLevels}
@@ -18,6 +22,9 @@ export default function NumericHabit(props: NumericHabitProps) {
                     props.updateItem(props.habit.Habit, { Completed: completed });
                 }}
             />
+            
+        
+        </div>
         </div>
     );
 }

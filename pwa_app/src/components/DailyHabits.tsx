@@ -25,7 +25,7 @@ function DailyHabits() {
   }
 
   return (
-    <div>
+    <div className="flex flex-wrap flex-row gap-4">
       {habits.map((habit, i) => {
         if (habit.MaxLevels) {
           return (
