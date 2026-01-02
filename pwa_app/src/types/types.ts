@@ -5,7 +5,8 @@ interface Habit {
 }
 
 export interface dailyHabits extends  Habit {
-    Completed: boolean;
+    Completed: number;
+    MaxLevels?: number; // optional field for habits that track levels
 };
 export interface weeklyHabits extends Habit {
     DayOfWeek: string; // 'M' | 'Tu' | 'W' | 'Th' | 'F' | 'Sa' | 'Su';
