@@ -25,12 +25,12 @@ function DailyHabits() {
   }
 
   return (
-    <div className="w-screen grid grid-cols-4 pr-4">
+    <div className="w-screen grid grid-cols-4">
       {habits.map((habit, i) => {
         const style = { animationDelay: `${i * 0.2}s` };
         if (habit.MaxLevels) {
           return (
-            <div className="floating" style={style}>
+            <div className="" style={style}>
               <NumericHabit
                 key={i}
                 habit={habit}
@@ -40,7 +40,7 @@ function DailyHabits() {
           );
         } else {
           return (
-            <div className="floating" style={style}>
+            <div className="" style={style}>
               <BinaryHabit
                 key={i}
                 habit={habit}
