@@ -1,4 +1,5 @@
 interface trackable {
+    id: number;
     Date: string; // MM/DD/YYYY format
     Uploaded?: boolean; // optional field to indicate if the habit has been stored remotely
 }

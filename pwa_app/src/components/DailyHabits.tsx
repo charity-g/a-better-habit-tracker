@@ -24,11 +24,17 @@ function DailyHabits() {
   }
 
   return (
-      <ReactSortable 
-        className="w-screen grid grid-cols-4"
-        swap list={habits} setList={setHabits}> 
-      {habits.map((habit, i) => <HabitInput key={i} habit={habit} updateItem={updateItem} />)}
-      </ReactSortable>
+    <ReactSortable 
+      className="w-screen grid grid-cols-4"
+      group="shared"
+      animation={200}
+      delay={1}
+      swap
+      list={habits}
+      setList={setHabits}
+    > 
+      {habits.map((habit) => <HabitInput key={habit.id} habit={habit} updateItem={updateItem} />)}
+    </ReactSortable>
   )
 }
 

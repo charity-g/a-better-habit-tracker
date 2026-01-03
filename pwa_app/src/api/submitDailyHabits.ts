@@ -37,22 +37,26 @@ export function fetchDailyHabits(): dailyHabits[] {
 function initDailyHabits(date: string): dailyHabits[] {
     return [
     {
+        id: 1,
         Habit: 'IC',
         Date: date,
         MaxLevels: 3,
         Completed: 0,
     }, 
     {
+        id: 2,
         Habit: 'S',
         Date: date,
         Completed: 0,
     }, 
     {
+        id: 3,
         Habit: 'Eyes',
         Date: date,
         Completed: 0,
     }, 
     {
+        id: 4,
         Habit: 'P',
         Date: date,
         MaxLevels: 5,
