@@ -2,12 +2,29 @@
   position: relative;
   border-radius: 20px;
   isolation: isolate;
-  background: rgba(192, 199, 129, 0.4);
+  background: rgba(192, 199, 129, 0.7);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0px 6px 24px rgba(236, 178, 178, 0.2);
+  --tw-shadow: 0px 6px 24px rgba(236, 178, 178, 0.2);
+  --tw-shadow-colored: 0px 6px 24px var(--tw-shadow-color, rgba(236, 178, 178, 0.2));
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000),
+              var(--tw-ring-shadow, 0 0 #0000),
+              var(--tw-shadow);
   backdrop-filter: blur(1px);
   -webkit-backdrop-filter: blur(2px);
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.glass-card:focus-within {
+  transform: scale(1.05);
+  --tw-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+  --tw-shadow-colored: 0 25px 50px -12px var(--tw-shadow-color);
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000),
+              var(--tw-ring-shadow, 0 0 #0000),
+              var(--tw-shadow);
+  --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
+  --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) white;
+  --tw-ring-offset-width: 2px;
+  --tw-ring-offset-color: rgba(255, 255, 255, 0.3);
 }
 
 /* SCROLLBAR */

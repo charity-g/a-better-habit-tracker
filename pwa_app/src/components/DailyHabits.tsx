@@ -1,8 +1,7 @@
 import { useState, useEffect } from 'react';
 import { fetchDailyHabits } from '../api/submitDailyHabits';
 import type {dailyHabits} from '../types/types';
-import NumericHabit from './NumericHabit';
-import BinaryHabit from './BinaryHabit';
+import HabitInput from './HabitInput';
 
 
 function DailyHabits() {
@@ -26,30 +25,7 @@ function DailyHabits() {
 
   return (
     <div className="w-screen grid grid-cols-4">
-      {habits.map((habit, i) => {
-        const style = { animationDelay: `${i * 0.2}s` };
-        if (habit.MaxLevels) {
-          return (
-            <div className="" style={style}>
-              <NumericHabit
-                key={i}
-                habit={habit}
-                updateItem={updateItem}
-              />
-            </div>
-          );
-        } else {
-          return (
-            <div className="" style={style}>
-              <BinaryHabit
-                key={i}
-                habit={habit}
-                updateItem={updateItem}
-              />
-            </div>
-          );
-        }
-      })}
+      {habits.map((habit, i) => <HabitInput key={i} habit={habit} updateItem={updateItem} />)}
     </div>
   )
 }
