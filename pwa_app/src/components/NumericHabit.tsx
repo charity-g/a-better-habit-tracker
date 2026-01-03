@@ -35,8 +35,8 @@ export default function NumericHabit(props: NumericHabitProps) {
                     if (!closest || dist < closest.distance) closest = { el, distance: dist };
                 });
 
-                if (closest) {
-                    const level = Number(closest.el.dataset.level);
+                if (closest != null) {
+                    const level = Number((closest as { el: HTMLElement; distance: number }).el.dataset.level);
                     setFocus(level);
                     props.updateItem(props.habit.Habit, { Completed: level });
                 }
