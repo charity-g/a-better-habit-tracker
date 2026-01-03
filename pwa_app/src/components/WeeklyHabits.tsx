@@ -8,15 +8,15 @@ const monday: Date = getMostRecentMonday(new Date());
 const weeklyHabitsLegend: weeklyHabitKey[] = [
   {
     Habit: 'Legs',
-    color: 'blue',
+    color: '#50d71e',
   },
   {
     Habit: 'Cardio',
-    color: 'green',
+    color: 'red',
   },
   {
     Habit: 'Upper Body',
-    color: 'green',
+    color: 'yellow',
   }
 ];
 
@@ -50,11 +50,14 @@ function WeeklyHabits() {
 function Legend() { 
   return (
     <div>
-      <h3>Weekly Habits Legend</h3>
+      <h3 className="uppercase tracking-widest text-lg text-white font-bold mb-2">Legend</h3>
       <ul>
         {weeklyHabitsLegend.map((habit, index) => (
-          <li key={index} className={`rounded-md px-2 py-1 mb-1 bg-${habit.color}-200`}>
-            {habit.Habit}
+          <li key={index} className='list-none'>
+          <div className="flex items-center gap-2">
+            <div className={`w-4 h-4 rounded-full bg-[${habit.color}]`} />
+            <span className="text-[10px] text-white font-bold uppercase tracking-widest text-muted-foreground">{habit.Habit}</span>
+          </div>
           </li>
         ))}
       </ul>

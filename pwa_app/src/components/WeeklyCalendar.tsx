@@ -57,7 +57,7 @@ export function WeeklyCalendar({ days: initialDays }: WeeklyCalendarProps) {
             Habit Flow
           </div>
           <h1 className="text-4xl md:text-6xl font-black tracking-tight text-foreground leading-none">
-            Weekly <span className="text-muted-foreground/40">Canvas</span>
+            Weekly <span className="text-muted-foreground/40">Calendar</span>
           </h1>
         </div>
         <div className="flex items-center gap-4 p-4 rounded-2xl bg-secondary/50 border border-border">
@@ -96,26 +96,6 @@ export function WeeklyCalendar({ days: initialDays }: WeeklyCalendarProps) {
             </div>
           </div>
         ))}
-      </div>
-
-      <div className="flex items-center justify-between pt-6">
-        <div className="flex flex-wrap items-center gap-6">
-          <div className="flex items-center gap-2">
-            <div className="w-2 h-2 rounded-full bg-emerald-500" />
-            <span className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Health</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="w-2 h-2 rounded-full bg-blue-500" />
-            <span className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Work</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="w-2 h-2 rounded-full bg-amber-500" />
-            <span className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Personal</span>
-          </div>
-        </div>
-        <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground/40 italic">
-          Last synced: 2 minutes ago
-        </p>
       </div>
     </div>
   )
