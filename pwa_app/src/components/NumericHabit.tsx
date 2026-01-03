@@ -10,15 +10,10 @@ export default function NumericHabit(props: NumericHabitProps) {
     const [focus, setFocus] = useState(props.habit.Completed);
 
     return (
-    <div className="flex flex-col justify-center items-center">
-        <div className="glass-card 
+        <div className="glass-card
                         h-15 w-15 my-2 rounded-2xl 
                         flex justify-center items-center 
-                        shadow-xl transition 
-                        focus-within:scale-105
-                        focus-within:shadow-2xl
-                        focus-within:ring-2 
-                        focus-within:ring-white"
+                        shadow-xl transition"
            >
          <input type="number"
                 className="text-center text-2xl font-semibold text-white bg-transparent outline-none"
@@ -46,8 +41,6 @@ export default function NumericHabit(props: NumericHabitProps) {
                     });
                 }}
             />
-        </div>
-        <label>{props.habit.Habit}</label>
     </div>
     );
 }
