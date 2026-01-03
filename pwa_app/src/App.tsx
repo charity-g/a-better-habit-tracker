@@ -11,9 +11,9 @@ function App() {
          <DailyHabits />
         
       </div>
-        {/* <WeeklyHabits />
+        <WeeklyHabits />
         <TimerTaskTracker />
-        <PrayerTracker /> */}
+        <PrayerTracker />
     </div>
   )
 }
