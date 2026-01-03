@@ -10,7 +10,7 @@ export default function BinaryHabit(props: BinaryHabitProps) {
     return (
         <div className="flex flex-col justify-center items-center">
              <label>{props.habit.Habit}</label>
-        <div className="bg-[#E7745F] h-15 w-15 my-2 rounded-2xl flex flex-col justify-center items-center shadow-xl pointer-events-none transition-transform duration-200">
+        <div className="glass-card h-15 w-15 my-2 rounded-2xl flex flex-col justify-center items-center shadow-xl transition-transform duration-200">
             <input type="checkbox"
                 checked={props.habit.Completed === 1}
                 onChange={(e) => {
