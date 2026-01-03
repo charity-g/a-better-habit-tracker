@@ -9,15 +9,46 @@ interface NumericHabitProps {
 export default function NumericHabit(props: NumericHabitProps) {
     const [focus, setFocus] = useState(props.habit.Completed);
     const scrollRef = useRef<HTMLDivElement | null>(null);
-
-    useEffect(() => {
-        setFocus(props.habit.Completed);
-    }, [props.habit.Completed]);
+    const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
     useEffect(() => {
         const target = scrollRef.current?.querySelector(`[data-level="${focus}"]`) as HTMLElement | null;
         target?.scrollIntoView({ behavior: "smooth", block: "center" });
     }, [focus]);
+
+    useEffect(() => {
+        const container = scrollRef.current;
+        if (!container) return;
+
+        const handleScroll = () => {
+            if (debounceRef.current) clearTimeout(debounceRef.current);
+            debounceRef.current = setTimeout(() => {
+                const items = Array.from(container.querySelectorAll<HTMLElement>("[data-level]"));
+                if (!items.length) return;
+                const { top, height } = container.getBoundingClientRect();
+                const centerY = top + height / 2;
+                let closest: { el: HTMLElement; distance: number } | null = null;
+
+                items.forEach((el) => {
+                    const rect = el.getBoundingClientRect();
+                    const dist = Math.abs(rect.top + rect.height / 2 - centerY);
+                    if (!closest || dist < closest.distance) closest = { el, distance: dist };
+                });
+
+                if (closest) {
+                    const level = Number(closest.el.dataset.level);
+                    setFocus(level);
+                    props.updateItem(props.habit.Habit, { Completed: level });
+                }
+            }, 200);
+        };
+
+        container.addEventListener("scroll", handleScroll);
+        return () => {
+            container.removeEventListener("scroll", handleScroll);
+            if (debounceRef.current) clearTimeout(debounceRef.current);
+        };
+    }, [props, props.habit.Habit, props.updateItem]);
 
     return (
         <div className="flex flex-col justify-center items-center">
