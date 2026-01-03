@@ -6,12 +6,14 @@ import PrayerTracker from './components/PrayerTracker.tsx'
 
 function App() {
   return (
-    <div >
-      
-        <DailyHabits />
-        <WeeklyHabits />
+    <div className="h-screen w-screen custom-background">
+      <div className='h-screen flex flex-col justify-center items-center'>
+         <DailyHabits />
+        
+      </div>
+        {/* <WeeklyHabits />
         <TimerTaskTracker />
-        <PrayerTracker />
+        <PrayerTracker /> */}
     </div>
   )
 }
