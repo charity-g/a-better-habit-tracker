@@ -29,7 +29,7 @@ export default function HabitInput({ habit, updateItem} : { habit: dailyHabits; 
         }
         </div>
 
-        <label>{habit.Habit}</label>
+        <label className="text-white text-lg font-semibold">{habit.Habit}</label>
         </div>
     );
 }
