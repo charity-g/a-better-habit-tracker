@@ -15,16 +15,17 @@ export default function NumericHabit(props: NumericHabitProps) {
                         h-15 w-15 my-2 rounded-2xl 
                         flex justify-center items-center 
                         shadow-xl transition 
+                        focus-within:scale-105
+                        focus-within:shadow-2xl
                         focus-within:ring-2 
-                        focus-within:ring-white/70 
-                        focus-within:ring-offset-2 
-                        focus-within:ring-offset-transparent"
+                        focus-within:ring-white"
            >
          <input type="number"
                 className="text-center text-2xl font-semibold text-white bg-transparent outline-none"
                 min={0}
                 max={props.habit.MaxLevels || 1}
                 value={focus}
+                onClick={(e) => e.currentTarget.focus()}
                 onFocus={(e) => {
                     e.currentTarget.focus();
                     setFocus(props.habit.Completed)}}
