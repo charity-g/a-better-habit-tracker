@@ -5,20 +5,6 @@ import type { dayOfTheWeek, weeklyHabitKey } from '../types/types';
 
 const monday: Date = getMostRecentMonday(new Date());
 
-const weeklyHabitsLegend: weeklyHabitKey[] = [
-  {
-    Habit: 'Legs',
-    color: '#50d71e',
-  },
-  {
-    Habit: 'Cardio',
-    color: 'red',
-  },
-  {
-    Habit: 'Upper Body',
-    color: 'yellow',
-  }
-];
 
 function generateWeeklyHabits(): dayOfTheWeek[] {
   // from monday to sunday, generate dayOfTheWeek
@@ -40,27 +26,43 @@ function WeeklyHabits() {
     setDays(days); // to avoid unused variable warning
   }
   return (
-    <div>
+    <div className="px-3">
+      <h1 className="text-4xl font-bold tracking-tight text-white leading-none">
+          Weekly <span className="text-white">Calendar</span>
+      </h1>
       <Legend />
       <WeeklyCalendar days={days} />
     </div>
   )
 }
 
-function Legend() { 
+
+const weeklyHabitsLegend: weeklyHabitKey[] = [
+  {
+    Habit: 'Legs',
+    color: '#D5B79A',
+  },
+  {
+    Habit: 'Cardio',
+    color: '#FFF985',
+  },
+  {
+    Habit: 'Upper Body',
+    color: '#F4C1B8',
+  }
+];
+
+function Legend() {
   return (
-    <div>
-      <h3 className="uppercase tracking-widest text-lg text-white font-bold mb-2">Legend</h3>
-      <ul>
+    <div className="px-1 pt-2 pb-4">
+      <div className="flex justify-between">
         {weeklyHabitsLegend.map((habit, index) => (
-          <li key={index} className='list-none'>
-          <div className="flex items-center gap-2">
-            <div className={`w-4 h-4 rounded-full bg-[${habit.color}]`} />
+          <div key={index} draggable="true" className="border-white border-2 rounded-md flex items-center gap-3 p-2">
+            <div className="w-4 h-4 rounded-full" style={{ backgroundColor: habit.color }} />
             <span className="text-[10px] text-white font-bold uppercase tracking-widest text-muted-foreground">{habit.Habit}</span>
           </div>
-          </li>
         ))}
-      </ul>
+      </div>
     </div>
   );
 

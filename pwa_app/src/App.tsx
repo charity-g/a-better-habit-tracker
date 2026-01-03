@@ -7,7 +7,7 @@ import PrayerTracker from './components/PrayerTracker.tsx'
 function App() {
   return (
     <div className="h-screen w-screen custom-background">
-      <div className='h-screen flex flex-col justify-center items-center'>
+      <div className='h-screen'>
          <DailyHabits />
          <WeeklyHabits />
       </div>

@@ -49,24 +49,7 @@ export function WeeklyCalendar({ days: initialDays }: WeeklyCalendarProps) {
   }
 
   return (
-    <div className="w-full max-w-5xl mx-auto p-6 md:p-10 space-y-8 font-sans">
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
-        <div className="space-y-2">
-          <div className="flex items-center gap-2 text-muted-foreground text-xs font-bold uppercase tracking-[0.2em]">
-            <img className="w-4 h-4 text-primary" />
-            Habit Flow
-          </div>
-          <h1 className="text-4xl md:text-6xl font-black tracking-tight text-foreground leading-none">
-            Weekly <span className="text-muted-foreground/40">Calendar</span>
-          </h1>
-        </div>
-        <div className="flex items-center gap-4 p-4 rounded-2xl bg-secondary/50 border border-border">
-          <img className="w-5 h-5 text-orange-500 fill-orange-500" />
-          <span className="text-sm font-bold text-muted-foreground uppercase tracking-wider">Drag to reassign</span>
-        </div>
-      </div>
-
-      <div className="grid grid-cols-7 gap-4">
+      <div className="grid grid-cols-7 gap-2">
         {days.map((day, dayIndex) => (
           <div
             key={day.date}
@@ -97,6 +80,6 @@ export function WeeklyCalendar({ days: initialDays }: WeeklyCalendarProps) {
           </div>
         ))}
       </div>
-    </div>
+    
   )
 }
