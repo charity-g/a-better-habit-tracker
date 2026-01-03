@@ -9,7 +9,7 @@ export default function BinaryHabit(props: BinaryHabitProps) {
     const isChecked = props.habit.Completed === 1;
 
     return (
-        <div
+        <button
             className="cursor-pointer flex items-center justify-center w-8 h-8"
             onDrag={(e) => e.currentTarget.focus()}
             onClick={(e) => {
@@ -19,6 +19,6 @@ export default function BinaryHabit(props: BinaryHabitProps) {
             }}
         >
             <img src={isChecked ? "/square-check.svg" : "/square-open.svg"} alt="Checked" className="fill-[#62ab49] w-full h-full" />
-        </div>
+        </button>
     );
 }

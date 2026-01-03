@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { getDateString, getMostRecentMonday } from '../date';
 import { WeeklyCalendar } from './WeeklyCalendar';
 import type { dayOfTheWeek, weeklyHabitKey } from '../types/types';
+import { ReactSortable } from 'react-sortablejs';
 
 const monday: Date = getMostRecentMonday(new Date());
 
@@ -39,14 +40,17 @@ function WeeklyHabits() {
 
 const weeklyHabitsLegend: weeklyHabitKey[] = [
   {
+    id: 1,
     Habit: 'Legs',
     color: '#D5B79A',
   },
   {
+    id: 2,
     Habit: 'Cardio',
     color: '#FFF985',
   },
   {
+    id: 3,
     Habit: 'Upper Body',
     color: '#F4C1B8',
   }
@@ -55,17 +59,28 @@ const weeklyHabitsLegend: weeklyHabitKey[] = [
 function Legend() {
   return (
     <div className="px-1 pt-2 pb-4">
-      <div className="flex justify-between">
+      <ReactSortable 
+        className="flex justify-between"
+        group={{
+          name: "cloneList",
+          pull: "clone",
+          revertClone: true,
+        }}
+        animation={150}
+        delay={1}
+        dragClass="!border-0"
+        list={weeklyHabitsLegend}
+        setList={() => {}}
+      > 
         {weeklyHabitsLegend.map((habit, index) => (
           <div key={index} draggable="true" className="border-white border-2 rounded-md flex items-center gap-3 p-2">
             <div className="w-4 h-4 rounded-full" style={{ backgroundColor: habit.color }} />
             <span className="text-[10px] text-white font-bold uppercase tracking-widest text-muted-foreground">{habit.Habit}</span>
           </div>
         ))}
-      </div>
+      </ReactSortable>
     </div>
   );
-
 }
 
 

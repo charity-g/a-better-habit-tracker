@@ -6,6 +6,22 @@ interface WeeklyCalendarProps {
   days: dayOfTheWeek[]
 }
 
+/*
+
+    if (cloneSource2Ref.current) {
+      sortable2 = Sortable.create(cloneSource2Ref.current, {
+        animation: 150,
+        group: {
+          name: "cloneList",
+          pull: "clone",
+          revertClone: true,
+        },
+        dragClass: "!border-0",
+      });
+    }
+
+*/
+
 export function WeeklyCalendar({ days: initialDays }: WeeklyCalendarProps) {
   const [days, setDays] = useState(initialDays)
   const [draggedHabit, setDraggedHabit] = useState<{ dayIndex: number; habitIndex: number } | null>(null)

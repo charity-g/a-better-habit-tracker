@@ -20,6 +20,7 @@ export interface weeklyHabits extends trackable {
 };
 
 export interface weeklyHabitKey {
+    id: number;
     Habit: string;
     color: string;
 };
