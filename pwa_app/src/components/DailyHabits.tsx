@@ -1,39 +1,12 @@
 import { useState, useEffect } from 'react';
+import { fetchDailyHabits } from '../api/submitDailyHabits';
 import type {dailyHabits} from '../types/types';
-import { getDateString } from '../date';
 import NumericHabit from './NumericHabit';
 import BinaryHabit from './BinaryHabit';
 
-const today: string = getDateString();
-const dailyHabitList: dailyHabits[] = [
-  {
-    Habit: 'IC',
-    Date: today,
-    MaxLevels: 3,
-    Completed: 0,
-  }, 
-  {
-    Habit: 'S',
-    Date: today,
-    Completed: 0,
-  }, 
-  {
-    Habit: 'Eyes',
-    Date: today,
-    Completed: 0,
-  }, 
-  {
-    Habit: 'P',
-    Date: today,
-    MaxLevels: 5,
-    Completed: 0,
-  },
-
-];
-
 
 function DailyHabits() {
-  const [habits, setHabits] = useState(dailyHabitList);
+  const [habits, setHabits] = useState(fetchDailyHabits());
   console.log("DailyHabits rendered", habits);
   function submit(data: object) {
     console.log("Submitting:", data);
@@ -52,23 +25,28 @@ function DailyHabits() {
   }
 
   return (
-    <div>
+    <div className="w-screen grid grid-cols-4">
       {habits.map((habit, i) => {
+        const style = { animationDelay: `${i * 0.2}s` };
         if (habit.MaxLevels) {
           return (
-            <NumericHabit
-              key={i}
-              habit={habit}
-              updateItem={updateItem}
-            />
+            <div className="" style={style}>
+              <NumericHabit
+                key={i}
+                habit={habit}
+                updateItem={updateItem}
+              />
+            </div>
           );
         } else {
           return (
-            <BinaryHabit
-              key={i}
-              habit={habit}
-              updateItem={updateItem}
-            />
+            <div className="" style={style}>
+              <BinaryHabit
+                key={i}
+                habit={habit}
+                updateItem={updateItem}
+              />
+            </div>
           );
         }
       })}

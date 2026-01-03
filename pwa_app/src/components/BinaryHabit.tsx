@@ -6,9 +6,11 @@ interface BinaryHabitProps {
 }
 
 export default function BinaryHabit(props: BinaryHabitProps) {
+
     return (
-        <div>
-            Binary Habit Component
+        <div className="flex flex-col justify-center items-center">
+             <label>{props.habit.Habit}</label>
+        <div className="bg-[#E7745F] h-15 w-15 my-2 rounded-2xl flex flex-col justify-center items-center shadow-xl pointer-events-none transition-transform duration-200">
             <input type="checkbox"
                 checked={props.habit.Completed === 1}
                 onChange={(e) => {
@@ -16,6 +18,8 @@ export default function BinaryHabit(props: BinaryHabitProps) {
                     props.updateItem(props.habit.Habit, { Completed: completed });
                 }}
             />
+        
+        </div>
         </div>
     );
 }

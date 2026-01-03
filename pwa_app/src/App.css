@@ -1,0 +1,68 @@
+.glass-card {
+  position: relative;
+  border-radius: 20px;
+  isolation: isolate;
+  background: rgba(192, 199, 129, 0.4);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0px 6px 24px rgba(236, 178, 178, 0.2);
+  backdrop-filter: blur(1px);
+  -webkit-backdrop-filter: blur(2px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* SCROLLBAR */
+.hide-scrollbar-global {
+    scrollbar-width: none; /* Firefox */
+}
+.hide-scrollbar-global::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+
+/* FLOATING   */
+  .floating {
+            width: 100px;
+            height: 100px;
+            position: relative;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(0);
+            }
+
+            100% {
+                transform: translateY(0);
+            }
+        }
+
+/* BACKGROUND */
+
+.custom-background {
+    background: linear-gradient(257deg, #131200, #78bc61, #c59b76, #e7745f);
+    background-size: 800% 800%;
+
+    -webkit-animation: AnimationName 31s ease infinite;
+    -moz-animation: AnimationName 31s ease infinite;
+    animation: AnimationName 31s ease infinite;
+}
+
+@-webkit-keyframes AnimationName {
+    0%{background-position:0% 2%}
+    50%{background-position:100% 99%}
+    100%{background-position:0% 2%}
+}
+@-moz-keyframes AnimationName {
+    0%{background-position:0% 2%}
+    50%{background-position:100% 99%}
+    100%{background-position:0% 2%}
+}
+@keyframes AnimationName {
+    0%{background-position:0% 2%}
+    50%{background-position:100% 99%}
+    100%{background-position:0% 2%}
+}
