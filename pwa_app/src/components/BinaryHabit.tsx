@@ -6,14 +6,19 @@ interface BinaryHabitProps {
 }
 
 export default function BinaryHabit(props: BinaryHabitProps) {
+    const isChecked = props.habit.Completed === 1;
 
     return (
-            <input type="checkbox"
-                checked={props.habit.Completed === 1}
-                onChange={(e) => {
-                    const completed = e.target.checked ? 1 : 0;
-                    props.updateItem(props.habit.Habit, { Completed: completed });
-                }}
-            />
+        <div
+            className="cursor-pointer flex items-center justify-center w-8 h-8"
+            onClick={() => {
+                const completed = isChecked ? 0 : 1;
+                props.updateItem(props.habit.Habit, { Completed: completed });
+            }}
+        >
+            
+                <img src={isChecked ? "/square-check.svg" : "/square-open.svg"} alt="Checked" className="fill-[#62ab49] w-full h-full" />
+            
+        </div>
     );
 }
