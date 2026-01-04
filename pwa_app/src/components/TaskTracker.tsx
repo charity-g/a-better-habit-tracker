@@ -1,27 +1,17 @@
 import { useState, useEffect } from 'react';
-import Timer from './Timer';
 import { submitTask } from '../api/submitTask';
 
 function TimerTaskTracker() {
-  const [timeElapsed, setTimeElapsed] = useState(0);
-  const [topic, setTopic] = useState('');
-  const [taskName, setTaskName] = useState('');
-  const [debouncedTaskName, setDebouncedTaskName] = useState('');
+  const [time, setTime] = useState(0);
+  const [topic, setTopic] = useState("Computer Science");
+  const [taskName, setTaskName] = useState("");
 
-  useEffect(() => {
-    const handle = setTimeout(() => setDebouncedTaskName(taskName), 300);
-    return () => clearTimeout(handle);
-  }, [taskName]);
-
-  function setHasEnded() {
-    submitTask(debouncedTaskName, timeElapsed);
-    setTaskName('');
-    setTimeElapsed(0);
-  }
-  
-  
   return (
     <div>
+      <form>
+        <div>
+          <h2> Time: <span> {time} </span></h2>
+        </div>
       <input
         type="text"
         value={topic}
@@ -34,7 +24,13 @@ function TimerTaskTracker() {
         placeholder="Task name"
         onChange={(e) => setTaskName(e.target.value)}
       />
-      <Timer onStart={setTimeElapsed} onEnd={setHasEnded}  taskName={debouncedTaskName} />
+      <input type="submit" value="Commit Done" onClick={(e) => {
+        e.preventDefault();
+        submitTask({ topic, taskName, time });
+        setTime(0);
+        setTaskName("");
+      }} />
+      </form>
     </div>
   )
 }
