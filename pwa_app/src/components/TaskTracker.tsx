@@ -25,19 +25,29 @@ function TimerTaskTracker() {
       
       <form onSubmit={handleSubmit}>
         <input
-          type="text"
-          value={topic}
-          placeholder="Topic"
-          onChange={(e) => setTopic(e.target.value)}
-        />
-        <input
-          type="text"
-          value={taskName}
-          placeholder="Task name"
-          onChange={(e) => setTaskName(e.target.value)}
-        />
-        <TimeInput time={time} setTime={setTime} /> 
-        <input type="submit" value="Commit Done" />
+  type="text"
+  value={topic}
+  placeholder="Topic"
+  onChange={(e) => setTopic(e.target.value)}
+  className="w-full px-4 py-3 rounded-lg bg-white/20 text-white placeholder-white/70 backdrop-blur-md focus:outline-none focus:ring-2 focus:ring-[#78bc61] transition"
+/>
+
+<input
+  type="text"
+  value={taskName}
+  placeholder="Task name"
+  onChange={(e) => setTaskName(e.target.value)}
+  className="w-full px-4 py-3 rounded-lg bg-white/20 text-white placeholder-white/70 backdrop-blur-md focus:outline-none focus:ring-2 focus:ring-[#78bc61] transition"
+/>
+
+<TimeInput time={time} setTime={setTime} />
+
+<input
+  type="submit"
+  value="Submit"
+  className="w-full mt-4 px-4 py-3 rounded-lg bg-lime-500 text-black font-semibold hover:bg-lime-400 active:scale-95 transition shadow-lg"
+/>
+
         </form>
     </div>
   )
