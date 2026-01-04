@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { submitTask } from '../api/submitTask';
 
 class Topic {
@@ -15,21 +15,25 @@ function TimerTaskTracker() {
 
   function handleSubmit(e: React.FormEvent) {
       e.preventDefault();
+      if (taskName.trim() === "" || time <= 0) {
+          alert("Please enter a valid task name and time greater than 0.");
+          return;
+      }
       submitTask({ topic, taskName, durationHours: time });
       setTime(0);
       setTaskName("");
   }
 
   return (
-    <div className="flex flex-col items-center gap-6 px-6 py-3 rounded-xl bg-black/30 backdrop-blur-md shadow-lg text-white max-w-sm mx-auto">
+    <div className="p-6 rounded-xl bg-[#c0c781]/50 backdrop-blur-md shadow-lg text-white max-w-sm mx-auto">
       
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="flex flex-col items-center gap-2">
         <input
   type="text"
   value={topic}
   placeholder="Topic"
   onChange={(e) => setTopic(e.target.value)}
-  className="w-full px-4 py-3 rounded-lg bg-white/20 text-white placeholder-white/70 backdrop-blur-md focus:outline-none focus:ring-2 focus:ring-[#78bc61] transition"
+  className="w-full px-4 py-3 rounded-lg bg-black/30 text-white placeholder-white/70 backdrop-blur-md focus:bg-black/50 focus:outline-none focus:ring-2 focus:ring-white/80 transition"
 />
 
 <input
@@ -37,7 +41,7 @@ function TimerTaskTracker() {
   value={taskName}
   placeholder="Task name"
   onChange={(e) => setTaskName(e.target.value)}
-  className="w-full px-4 py-3 rounded-lg bg-white/20 text-white placeholder-white/70 backdrop-blur-md focus:outline-none focus:ring-2 focus:ring-[#78bc61] transition"
+  className="w-full px-4 py-3 rounded-lg bg-black/30 text-white placeholder-white/70 backdrop-blur-md focus:bg-black/50 focus:outline-none focus:ring-2 focus:ring-white/80 transition"
 />
 
 <TimeInput time={time} setTime={setTime} />
@@ -45,9 +49,8 @@ function TimerTaskTracker() {
 <input
   type="submit"
   value="Submit"
-  className="w-full mt-4 px-4 py-3 rounded-lg bg-lime-500 text-black font-semibold hover:bg-lime-400 active:scale-95 transition shadow-lg"
+  className="w-full text-white mt-4 px-4 py-3 rounded-lg bg-[#528F3D]/60 text-black font-semibold hover:bg-[#528F3D] active:scale-95 transition shadow-lg"
 />
-
         </form>
     </div>
   )
@@ -58,8 +61,8 @@ function TimeInput({ time, setTime }: { time: number; setTime: (time: number) =>
 
   return (
     <div className="flex flex-col items-center gap-2">
-    <h2 className="uppercase text-xl font-semibold tracking-wide">
-      Time: <span className="font-bold text-lime-300">{time}</span>
+    <h2 className="uppercase text-xl font-semibold tracking-wide text-lime-800">
+      Time: <span className="font-bold">{time}</span>
     </h2>
 
     <div className="flex gap-3 justify-center">
