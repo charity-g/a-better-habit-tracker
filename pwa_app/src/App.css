@@ -2,7 +2,7 @@
   position: relative;
   border-radius: 20px;
   isolation: isolate;
-  background: rgba(192, 199, 129, 0.7);
+  background: rgba(192, 199, 129, 0.5);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   --tw-shadow: 0px 6px 24px rgba(236, 178, 178, 0.2);
   --tw-shadow-colored: 0px 6px 24px var(--tw-shadow-color, rgba(236, 178, 178, 0.2));
@@ -11,11 +11,12 @@
               var(--tw-shadow);
   backdrop-filter: blur(1px);
   -webkit-backdrop-filter: blur(2px);
-  border: 1px solid rgba(255, 255, 255, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.7);
 }
 
 .glass-card:focus-within {
   transform: scale(1.05);
+  background: rgba(192, 199, 129, 0.8);
   --tw-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25);
   --tw-shadow-colored: 0 25px 50px -12px var(--tw-shadow-color);
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000),

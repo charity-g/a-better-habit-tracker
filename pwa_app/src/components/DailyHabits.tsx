@@ -2,11 +2,11 @@ import { useState, useEffect } from 'react';
 import { fetchDailyHabits } from '../api/submitDailyHabits';
 import type {dailyHabits} from '../types/types';
 import HabitInput from './HabitInput';
+import { ReactSortable } from "react-sortablejs";
 
 
 function DailyHabits() {
-  const [habits, setHabits] = useState(fetchDailyHabits());
-  console.log("DailyHabits rendered", habits);
+  const [habits, setHabits] = useState<dailyHabits[]>(fetchDailyHabits());
   function submit(data: object) {
     console.log("Submitting:", data);
   }
@@ -24,9 +24,17 @@ function DailyHabits() {
   }
 
   return (
-    <div className="w-screen grid grid-cols-4">
-      {habits.map((habit, i) => <HabitInput key={i} habit={habit} updateItem={updateItem} />)}
-    </div>
+    <ReactSortable 
+      className="w-screen grid grid-cols-4"
+      group="shared"
+      animation={200}
+      delay={1}
+      swap
+      list={habits}
+      setList={setHabits}
+    > 
+      {habits.map((habit) => <HabitInput key={habit.id} habit={habit} updateItem={updateItem} />)}
+    </ReactSortable>
   )
 }
 

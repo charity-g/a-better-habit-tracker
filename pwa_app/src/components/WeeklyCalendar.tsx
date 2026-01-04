@@ -6,6 +6,22 @@ interface WeeklyCalendarProps {
   days: dayOfTheWeek[]
 }
 
+/*
+
+    if (cloneSource2Ref.current) {
+      sortable2 = Sortable.create(cloneSource2Ref.current, {
+        animation: 150,
+        group: {
+          name: "cloneList",
+          pull: "clone",
+          revertClone: true,
+        },
+        dragClass: "!border-0",
+      });
+    }
+
+*/
+
 export function WeeklyCalendar({ days: initialDays }: WeeklyCalendarProps) {
   const [days, setDays] = useState(initialDays)
   const [draggedHabit, setDraggedHabit] = useState<{ dayIndex: number; habitIndex: number } | null>(null)
@@ -49,24 +65,7 @@ export function WeeklyCalendar({ days: initialDays }: WeeklyCalendarProps) {
   }
 
   return (
-    <div className="w-full max-w-5xl mx-auto p-6 md:p-10 space-y-8 font-sans">
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
-        <div className="space-y-2">
-          <div className="flex items-center gap-2 text-muted-foreground text-xs font-bold uppercase tracking-[0.2em]">
-            <img className="w-4 h-4 text-primary" />
-            Habit Flow
-          </div>
-          <h1 className="text-4xl md:text-6xl font-black tracking-tight text-foreground leading-none">
-            Weekly <span className="text-muted-foreground/40">Canvas</span>
-          </h1>
-        </div>
-        <div className="flex items-center gap-4 p-4 rounded-2xl bg-secondary/50 border border-border">
-          <img className="w-5 h-5 text-orange-500 fill-orange-500" />
-          <span className="text-sm font-bold text-muted-foreground uppercase tracking-wider">Drag to reassign</span>
-        </div>
-      </div>
-
-      <div className="grid grid-cols-7 gap-4">
+      <div className="grid grid-cols-7 gap-2">
         {days.map((day, dayIndex) => (
           <div
             key={day.date}
@@ -97,26 +96,6 @@ export function WeeklyCalendar({ days: initialDays }: WeeklyCalendarProps) {
           </div>
         ))}
       </div>
-
-      <div className="flex items-center justify-between pt-6">
-        <div className="flex flex-wrap items-center gap-6">
-          <div className="flex items-center gap-2">
-            <div className="w-2 h-2 rounded-full bg-emerald-500" />
-            <span className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Health</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="w-2 h-2 rounded-full bg-blue-500" />
-            <span className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Work</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="w-2 h-2 rounded-full bg-amber-500" />
-            <span className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Personal</span>
-          </div>
-        </div>
-        <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground/40 italic">
-          Last synced: 2 minutes ago
-        </p>
-      </div>
-    </div>
+    
   )
 }
