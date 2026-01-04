@@ -9,8 +9,8 @@ function App() {
     <div className="h-screen w-screen custom-background">
       <div className='h-screen'>
          <DailyHabits />
-      </div>
         <TaskTracker />
+      </div>
          <WeeklyHabits />
         <PrayerTracker />
     </div>
