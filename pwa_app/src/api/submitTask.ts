@@ -1,4 +1,4 @@
-export function submitTask(taskName: string, durationHours: number) {
+export function submitTask({ topic, taskName, durationHours }: { topic: string; taskName: string; durationHours: number; }) {
     // TODO implement
-    console.log(`Submitting task: ${taskName} with duration: ${durationHours} hours`);   
+    console.log(`Submitting task: ${topic} - ${taskName} with duration: ${durationHours} hours`);   
 }
