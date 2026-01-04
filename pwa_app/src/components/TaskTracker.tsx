@@ -23,7 +23,6 @@ function TimerTaskTracker() {
   return (
     <div className="flex flex-col items-center gap-6 px-6 py-3 rounded-xl bg-black/30 backdrop-blur-md shadow-lg text-white max-w-sm mx-auto">
       
-      <TimeInput time={time} setTime={setTime} />
       <form onSubmit={handleSubmit}>
         <input
           type="text"
@@ -37,6 +36,7 @@ function TimerTaskTracker() {
           placeholder="Task name"
           onChange={(e) => setTaskName(e.target.value)}
         />
+        <TimeInput time={time} setTime={setTime} /> 
         <input type="submit" value="Commit Done" />
         </form>
     </div>
@@ -47,13 +47,14 @@ function TimerTaskTracker() {
 function TimeInput({ time, setTime }: { time: number; setTime: (time: number) => void; }) {
 
   return (
-    <div className="flex flex-col items-center gap-6">
-    <h2 className="text-2xl font-semibold tracking-wide">
+    <div className="flex flex-col items-center gap-2">
+    <h2 className="uppercase text-xl font-semibold tracking-wide">
       Time: <span className="font-bold text-lime-300">{time}</span>
     </h2>
 
     <div className="flex gap-3 justify-center">
       <button
+        type="button"
         onClick={() => setTime(time + 0.25)}
         className="px-4 py-2 rounded-lg bg-white/20 hover:bg-white/30 transition font-medium"
       >
@@ -61,6 +62,7 @@ function TimeInput({ time, setTime }: { time: number; setTime: (time: number) =>
       </button>
 
       <button
+        type="button"
         onClick={() => setTime(time + 0.5)}
         className="px-4 py-2 rounded-lg bg-white/20 hover:bg-white/30 transition font-medium"
       >
@@ -68,6 +70,7 @@ function TimeInput({ time, setTime }: { time: number; setTime: (time: number) =>
       </button>
 
       <button
+        type="button"
         onClick={() => setTime(time + 1)}
         className="px-4 py-2 rounded-lg bg-white/20 hover:bg-white/30 transition font-medium"
       >
@@ -75,6 +78,7 @@ function TimeInput({ time, setTime }: { time: number; setTime: (time: number) =>
       </button>
 
       <button
+        type="button"
         onClick={() => setTime(0)}
         className="px-4 py-2 rounded-lg bg-red-500/70 hover:bg-red-500 transition font-medium"
       >
