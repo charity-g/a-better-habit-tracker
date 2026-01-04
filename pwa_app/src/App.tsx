@@ -1,7 +1,7 @@
 import './App.css'
 import DailyHabits from './components/DailyHabits.tsx'
 import WeeklyHabits from './components/WeeklyHabits.tsx'
-import TimerTaskTracker from './components/TimerTaskTracker.tsx'
+import TaskTracker from './components/TaskTracker.tsx'
 import PrayerTracker from './components/PrayerTracker.tsx'
 
 function App() {
@@ -9,9 +9,9 @@ function App() {
     <div className="h-screen w-screen custom-background">
       <div className='h-screen'>
          <DailyHabits />
-         <WeeklyHabits />
       </div>
-        <TimerTaskTracker />
+        <TaskTracker />
+         <WeeklyHabits />
         <PrayerTracker />
     </div>
   )
