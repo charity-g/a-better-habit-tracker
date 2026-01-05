@@ -2,8 +2,8 @@ import { useState } from 'react';
 import { submitTask } from '../api/submitTask';
 
 class Topic {
-  static CS = "Computer Science"
-  static BIO = "Bio"
+  static CS = "Comp Sci."
+  static BIO = "Biology "
   static MISC = "Misc"
   static AMG = "Amgen"
 }
@@ -26,32 +26,34 @@ function TimerTaskTracker() {
 
   return (
     <div className="p-6 rounded-xl bg-[#c0c781]/50 backdrop-blur-md shadow-lg text-white max-w-sm mx-auto">
-      
       <form onSubmit={handleSubmit} className="flex flex-col items-center gap-2">
+        <select
+          value={topic}
+          onChange={(e) => setTopic(e.target.value)}
+          className="w-full px-4 py-3 rounded-lg bg-black/30 text-white backdrop-blur-md focus:bg-black/50 focus:outline-none focus:ring-2 focus:ring-white/80 transition"
+        >
+          <option value={Topic.CS}>{Topic.CS}</option>
+          <option value={Topic.BIO}>{Topic.BIO}</option>
+          <option value={Topic.MISC}>{Topic.MISC}</option>
+          <option value={Topic.AMG}>{Topic.AMG}</option>
+        </select>
+
         <input
-  type="text"
-  value={topic}
-  placeholder="Topic"
-  onChange={(e) => setTopic(e.target.value)}
-  className="w-full px-4 py-3 rounded-lg bg-black/30 text-white placeholder-white/70 backdrop-blur-md focus:bg-black/50 focus:outline-none focus:ring-2 focus:ring-white/80 transition"
-/>
+          type="text"
+          value={taskName}
+          placeholder="Task name"
+          onChange={(e) => setTaskName(e.target.value)}
+          className="w-full px-4 py-3 rounded-lg bg-black/30 text-white placeholder-white/70 backdrop-blur-md focus:bg-black/50 focus:outline-none focus:ring-2 focus:ring-white/80 transition"
+        />
 
-<input
-  type="text"
-  value={taskName}
-  placeholder="Task name"
-  onChange={(e) => setTaskName(e.target.value)}
-  className="w-full px-4 py-3 rounded-lg bg-black/30 text-white placeholder-white/70 backdrop-blur-md focus:bg-black/50 focus:outline-none focus:ring-2 focus:ring-white/80 transition"
-/>
+        <TimeInput time={time} setTime={setTime} />
 
-<TimeInput time={time} setTime={setTime} />
-
-<input
-  type="submit"
-  value="Submit"
-  className="w-full text-white mt-4 px-4 py-3 rounded-lg bg-[#528F3D]/60 text-black font-semibold hover:bg-[#528F3D] active:scale-95 transition shadow-lg"
-/>
-        </form>
+        <input
+          type="submit"
+          value="Submit"
+          className="w-full text-white mt-4 px-4 py-3 rounded-lg bg-[#528F3D]/60 text-black font-semibold hover:bg-[#528F3D] active:scale-95 transition shadow-lg"
+        />
+      </form>
     </div>
   )
 }

@@ -25,7 +25,7 @@ function DailyHabits() {
 
   return (
     <ReactSortable 
-      className="w-screen grid grid-cols-4"
+      className="w-full grid grid-cols-4"
       group="shared"
       animation={200}
       delay={1}
