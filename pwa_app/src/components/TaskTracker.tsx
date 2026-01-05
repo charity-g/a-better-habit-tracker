@@ -29,28 +29,28 @@ function TimerTaskTracker() {
       
       <form onSubmit={handleSubmit} className="flex flex-col items-center gap-2">
         <input
-  type="text"
-  value={topic}
-  placeholder="Topic"
-  onChange={(e) => setTopic(e.target.value)}
-  className="w-full px-4 py-3 rounded-lg bg-black/30 text-white placeholder-white/70 backdrop-blur-md focus:bg-black/50 focus:outline-none focus:ring-2 focus:ring-white/80 transition"
-/>
+            type="text"
+            value={topic}
+            placeholder="Topic"
+            onChange={(e) => setTopic(e.target.value)}
+            className="w-full px-4 py-3 rounded-lg bg-black/30 text-white placeholder-white/70 backdrop-blur-md focus:bg-black/50 focus:outline-none focus:ring-2 focus:ring-white/80 transition"
+          />
 
-<input
-  type="text"
-  value={taskName}
-  placeholder="Task name"
-  onChange={(e) => setTaskName(e.target.value)}
-  className="w-full px-4 py-3 rounded-lg bg-black/30 text-white placeholder-white/70 backdrop-blur-md focus:bg-black/50 focus:outline-none focus:ring-2 focus:ring-white/80 transition"
-/>
+          <input
+            type="text"
+            value={taskName}
+            placeholder="Task name"
+            onChange={(e) => setTaskName(e.target.value)}
+            className="w-full px-4 py-3 rounded-lg bg-black/30 text-white placeholder-white/70 backdrop-blur-md focus:bg-black/50 focus:outline-none focus:ring-2 focus:ring-white/80 transition"
+          />
 
-<TimeInput time={time} setTime={setTime} />
+          <TimeInput time={time} setTime={setTime} />
 
-<input
-  type="submit"
-  value="Submit"
-  className="w-full text-white mt-4 px-4 py-3 rounded-lg bg-[#528F3D]/60 text-black font-semibold hover:bg-[#528F3D] active:scale-95 transition shadow-lg"
-/>
+          <input
+            type="submit"
+            value="Submit"
+            className="w-full text-white mt-4 px-4 py-3 rounded-lg bg-[#528F3D]/60 text-black font-semibold hover:bg-[#528F3D] active:scale-95 transition shadow-lg"
+          />
         </form>
     </div>
   )
