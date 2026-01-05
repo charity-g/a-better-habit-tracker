@@ -83,12 +83,13 @@ async function saveTaskToSpreadsheet(
         method: "POST",
         headers: {
             "Content-Type": "application/json",
-            // "Authorization": `Bearer ${accessToken}`, // Add your OAuth 2.0 access token here
+            ...(import.meta.env.VITE_GOOGLE_SHEETS_API_KEY ? { "Authorization": `Bearer ${import.meta.env.VITE_GOOGLE_SHEETS_API_KEY}` } : {})
         },
         body: JSON.stringify(body)
     })
     .then(response => {
         if (!response.ok) {
+            console.error("Failed response:", response.status, response.statusText);
             throw new Error("Network response was not ok", { cause: response.statusText, });
         }
         return response.json();
