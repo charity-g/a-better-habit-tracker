@@ -1,6 +1,8 @@
 import { getDateString } from '../date';
+import type { timedTask } from '../types/types';
 
 const spreadsheetId = "10qldaMSNDj90pbrG4ZoMldSHPE-heVF9a-ufgQwhtgA";
+const localStorageKey = "tasksToRecord";
 
 export async function submitTask({ topic, taskName, durationHours }: { topic: string; taskName: string; durationHours: number; }) {
     await transferLocalTasksToSpreadsheet(); 
@@ -19,7 +21,31 @@ export async function submitTask({ topic, taskName, durationHours }: { topic: st
 }
 
 function transferLocalTasksToSpreadsheet() {
-    //TODO
+    const nonserializedTasks: string | null = localStorage.getItem(localStorageKey);
+    if (!nonserializedTasks) {
+        return;
+    }
+    
+    const tasks: timedTask[] = JSON.parse(nonserializedTasks);
+    const failedTransfers: timedTask[] = [];
+    tasks.forEach(async (task) => {
+        const res = await saveTaskToSpreadsheet({
+            date: task.Date,
+            topic: task.Topic,
+            taskName: task.Task,
+            durationHours: task.hours
+        });
+
+        if (!res) {
+            failedTransfers.push(task);
+        }
+    });
+
+    if (failedTransfers.length > 0) {
+        localStorage.setItem(localStorageKey, JSON.stringify(failedTransfers));
+    } else {
+        localStorage.removeItem(localStorageKey);
+    }
 }
 
 function saveTaskLocally(
