@@ -15,6 +15,7 @@ export async function submitTask({ topic, taskName, durationHours }: { topic: st
 
     if (!res) {
         saveTaskLocally({ date: getDateString(), topic, taskName, durationHours });
+        console.log("Task saved locally due to failed API submission.", res);
     };
 
     console.log(`Submitting task: ${topic} - ${taskName} with duration: ${durationHours} hours`);   
