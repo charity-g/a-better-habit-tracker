@@ -51,7 +51,20 @@ function transferLocalTasksToSpreadsheet() {
 function saveTaskLocally(
     task:  { date: string; topic: string; taskName: string; durationHours: number; }) {
 
-        //TODO
+    const nonserializedTasks: string | null = localStorage.getItem(localStorageKey);
+
+    if (!nonserializedTasks) {
+        localStorage.setItem(localStorageKey, JSON.stringify([task]));
+    } else {
+        const tasks: timedTask[] = JSON.parse(nonserializedTasks);
+        tasks.push({
+            Date: task.date,
+            Topic: task.topic,
+            Task: task.taskName,
+            hours: task.durationHours
+        });
+        localStorage.setItem(localStorageKey, JSON.stringify(tasks));
+    }
 }
 
 async function saveTaskToSpreadsheet(
@@ -66,7 +79,7 @@ async function saveTaskToSpreadsheet(
         values: [[task.date, task.topic, task.taskName, task.durationHours]]
     }
 
-    fetch(endpoint + params, {
+    await fetch(endpoint + params, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
