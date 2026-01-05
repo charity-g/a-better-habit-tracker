@@ -69,7 +69,7 @@ function saveTaskLocally(
 
 async function saveTaskToSpreadsheet(
     task:  { date: string; topic: string; taskName: string; durationHours: number; }):
-    Promise<Record<string, unknown>> {
+    Promise<Record<string, unknown> | null> {
     const range = "Tasks!A:D";
     const endpoint = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}:append`;
     const params = "?insertDataOption=INSERT_ROWS&valueInputOption=USER_ENTERED";
@@ -79,7 +79,7 @@ async function saveTaskToSpreadsheet(
         values: [[task.date, task.topic, task.taskName, task.durationHours]]
     }
 
-    await fetch(endpoint + params, {
+    return await fetch(endpoint + params, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -99,5 +99,6 @@ async function saveTaskToSpreadsheet(
     })
     .catch(error => {
         console.error("Error saving task to spreadsheet:", error);
+        return null;
     });
 };
