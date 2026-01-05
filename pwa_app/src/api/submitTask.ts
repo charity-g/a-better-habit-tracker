@@ -4,7 +4,7 @@ import type { timedTask } from '../types/types';
 const spreadsheetId = "10qldaMSNDj90pbrG4ZoMldSHPE-heVF9a-ufgQwhtgA";
 const localStorageKey = "tasksToRecord";
 
-export async function submitTask({ topic, taskName, durationHours }: { topic: string; taskName: string; durationHours: number; }) {
+export async function submitTask({ topic, taskName, durationHours }: { topic: string; taskName: string; durationHours: number; }): Promise<boolean> {
     await transferLocalTasksToSpreadsheet(); 
     const res = await saveTaskToSpreadsheet({
         date: getDateString(),
@@ -15,10 +15,9 @@ export async function submitTask({ topic, taskName, durationHours }: { topic: st
 
     if (!res) {
         saveTaskLocally({ date: getDateString(), topic, taskName, durationHours });
-        console.log("Task saved locally due to failed API submission.", res);
+        return false;
     };
-
-    console.log(`Submitting task: ${topic} - ${taskName} with duration: ${durationHours} hours`);   
+    return true;
 }
 
 function transferLocalTasksToSpreadsheet() {
@@ -90,7 +89,7 @@ async function saveTaskToSpreadsheet(
     })
     .then(response => {
         if (!response.ok) {
-            throw new Error("Network response was not ok");
+            throw new Error("Network response was not ok", { cause: response.statusText, });
         }
         return response.json();
     })
