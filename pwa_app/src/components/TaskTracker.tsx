@@ -2,10 +2,11 @@ import { useState } from 'react';
 import { submitTask } from '../api/submitTask';
 
 class Topic {
-  static CS = "Comp Sci."
+  static CS = "Computer Science"
   static BIO = "Biology "
-  static MISC = "Misc"
+  static MISC = "Misc Work"
   static AMG = "Amgen"
+  static job = "Job Hunt"
 }
 
 function TimerTaskTracker() {

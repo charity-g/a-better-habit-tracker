@@ -83,7 +83,8 @@ async function saveTaskToSpreadsheet(
         method: "POST",
         headers: {
             "Content-Type": "application/json",
-            ...(import.meta.env.VITE_GOOGLE_SHEETS_API_KEY ? { "Authorization": `Bearer ${import.meta.env.VITE_GOOGLE_SHEETS_API_KEY}` } : {})
+            "Authorization": `Bearer ${localStorage.getItem("google_oauth_token")}`,
+            ...(import.meta.env.VITE_GOOGLE_SHEETS_API_KEY ? { "X-goog-api-key": import.meta.env.VITE_GOOGLE_SHEETS_API_KEY } : {})
         },
         body: JSON.stringify(body)
     })
