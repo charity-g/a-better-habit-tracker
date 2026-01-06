@@ -1,8 +1,8 @@
 # a-better-habit-tracker
 
 ## todos
+- [ ]  Expected OAuth 2 access token, login cookie or other valid authentication credential.
 - [ ] debouncing for typing
-- [ ] autofill for topic in timer
 - [ ] how to detect offline
 - [ ] https://www.npmjs.com/package/pwa-asset-generator
 - [ ] connect to google dev api
