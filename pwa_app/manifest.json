@@ -1,9 +1,0 @@
-{
-  "name": "a better habit tracker",
-  "short_name": "better habits",
-  "description": "A Progressive Web App to help you build and track better habits daily and weekly.",
-  "icons": [
-  ],
-  "start_url": ".",
-  "display": "standalone"
-}
