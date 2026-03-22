@@ -1,3 +1,4 @@
+import { useMemo, useState } from 'react';
 import { EntriesSection } from './components/EntriesSection';
 import { HeroSection } from './components/HeroSection';
 import { ManualEntrySection } from './components/ManualEntrySection';
@@ -7,18 +8,14 @@ import { SyncSettingsSection } from './components/SyncSettingsSection';
 import { TimerEntrySection } from './components/TimerEntrySection';
 import { TopicSection } from './components/TopicSection';
 import { useHabitTracker } from './hooks/useHabitTracker';
+import { roundToQuarter } from './lib/utils';
 
 function App() {
   const {
     topics,
     entries,
-    settings,
-    manualDraft,
-    timerDraft,
-    topicName,
-    topicColor,
-    timerStartedAt,
-    elapsedMs,
+    syncSettings,
+    authState,
     syncBanner,
     isHydrated,
     isSyncing,
@@ -27,11 +24,6 @@ function App() {
     topicMap,
     pendingEntries,
     stats,
-    roundedTimerHours,
-    updateManualDraft,
-    updateTimerDraft,
-    setTopicName,
-    setTopicColor,
     attemptSync,
     handleManualSubmit,
     handleTimerSubmit,
@@ -39,11 +31,11 @@ function App() {
     handleSettingsSubmit,
     handleGoogleConnect,
     handleDisconnectGoogle,
-    handleInstall,
-    startTimer,
-    pauseTimer,
-    resetTimer
+    handleInstall
   } = useHabitTracker();
+
+  const [timerElapsedMs, setTimerElapsedMs] = useState(0);
+  const roundedTimerHours = useMemo(() => roundToQuarter(timerElapsedMs / 3_600_000), [timerElapsedMs]);
 
   if (!isHydrated) {
     return <main className="app-shell loading-shell">Loading tracker...</main>;
@@ -53,37 +45,27 @@ function App() {
     <main className="app-shell">
       <HeroSection isSyncing={isSyncing} canInstall={installPrompt !== null} onSync={() => void attemptSync()} onInstall={() => void handleInstall()} />
 
-      <StatusStrip isOnline={isOnline} pendingEntries={pendingEntries} todayHours={stats.today} weekHours={stats.week} topicCount={topics.length} />
+      <StatusStrip
+        isOnline={isOnline}
+        pendingEntries={pendingEntries}
+        todayHours={stats.today}
+        yesterdayHours={stats.yesterday}
+        weekHours={stats.week}
+        topicCount={topics.length}
+      />
 
       <SyncBannerSection banner={syncBanner} />
 
       <section className="content-grid">
-        <ManualEntrySection topics={topics} draft={manualDraft} onChange={updateManualDraft} onSubmit={handleManualSubmit} />
+        <ManualEntrySection topics={topics} onSubmit={handleManualSubmit} />
 
-        <TimerEntrySection
-          topics={topics}
-          draft={timerDraft}
-          elapsedMs={elapsedMs}
-          roundedTimerHours={roundedTimerHours}
-          isRunning={timerStartedAt !== null}
-          onChange={updateTimerDraft}
-          onStart={startTimer}
-          onPause={pauseTimer}
-          onReset={resetTimer}
-          onSubmit={handleTimerSubmit}
-        />
+        <TimerEntrySection topics={topics} roundedTimerHours={roundedTimerHours} onElapsedMsChange={setTimerElapsedMs} onSubmit={handleTimerSubmit} />
 
-        <TopicSection
-          topics={topics}
-          topicName={topicName}
-          topicColor={topicColor}
-          onTopicNameChange={setTopicName}
-          onTopicColorChange={setTopicColor}
-          onSubmit={handleTopicSubmit}
-        />
+        <TopicSection topics={topics} onSubmit={handleTopicSubmit} />
 
         <SyncSettingsSection
-          settings={settings}
+          settings={syncSettings}
+          auth={authState}
           isSyncing={isSyncing}
           onSubmit={handleSettingsSubmit}
           onConnect={handleGoogleConnect}

@@ -4,11 +4,12 @@ type StatusStripProps = {
   isOnline: boolean;
   pendingEntries: number;
   todayHours: number;
+  yesterdayHours: number;
   weekHours: number;
   topicCount: number;
 };
 
-export function StatusStrip({ isOnline, pendingEntries, todayHours, weekHours, topicCount }: StatusStripProps) {
+export function StatusStrip({ isOnline, pendingEntries, todayHours, yesterdayHours, weekHours, topicCount }: StatusStripProps) {
   return (
     <section className="status-strip">
       <div className="status-item">
@@ -22,6 +23,10 @@ export function StatusStrip({ isOnline, pendingEntries, todayHours, weekHours, t
       <div className="status-item">
         <span>Today</span>
         <strong>{formatHours(todayHours)}</strong>
+      </div>
+      <div className="status-item">
+        <span>Yesterday</span>
+        <strong>{formatHours(yesterdayHours)}</strong>
       </div>
       <div className="status-item">
         <span>This week</span>
