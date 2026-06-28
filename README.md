@@ -24,5 +24,8 @@ You want to fork this and create your own?
 
 ### Hosting
 - Use GitHub pages
+ = GitHub Pages has a soft bandwidth limit (100GB/month) and a file size limit (1GB repo). 
+
+- Using elsewhere
 
 ### Customizing
