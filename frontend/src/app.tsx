@@ -10,7 +10,7 @@ export function App() {
           {
             key: "habit",
             label: "Habit",
-            content: <HabitPage></HabitPage>,
+            content: <HabitPage />,
           },
           {
             key: "settings",

@@ -1,5 +1,6 @@
 import { createStore } from "zustand/vanilla";
 import { useStore } from "zustand";
+
 import { type Habit, type HabitLog } from "./habitModel";
 import {
   type AppSettings,
@@ -147,9 +148,3 @@ export const habitStore = createStore<HabitStore>((set, get) => ({
       settings: defaultSettings,
     }),
 }));
-
-export function useHabitStore<T>(
-  selector: (state: HabitStore) => T
-) {
-  return useStore(habitStore, selector);
-}
