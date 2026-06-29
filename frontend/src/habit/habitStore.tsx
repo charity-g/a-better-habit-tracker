@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
-import {type Habit, type HabitLog} from '../model/habit'
+import {type Habit, type HabitLog} from './habitModel'
 import {type AppSettings, defaultSettings} from '../model/settings'
 import {SyncStatus} from '../model/syncStatus'
 
