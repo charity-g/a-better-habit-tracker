@@ -1,0 +1,1 @@
+import {defaultSettings, type AppSettings} from '../model/settings'

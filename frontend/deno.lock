@@ -5,7 +5,8 @@
     "npm:@types/node@^24.13.2": "24.13.2",
     "npm:preact@^10.29.2": "10.29.3",
     "npm:typescript@~6.0.2": "6.0.3",
-    "npm:vite@^8.1.0": "8.1.0_@types+node@24.13.2"
+    "npm:vite@^8.1.0": "8.1.0_@types+node@24.13.2",
+    "npm:zustand@^5.0.14": "5.0.14"
   },
   "npm": {
     "@babel/code-frame@7.29.7": {
@@ -730,6 +731,9 @@
     },
     "zimmerframe@1.1.4": {
       "integrity": "sha512-B58NGBEoc8Y9MWWCQGl/gq9xBCe4IiKM0a2x7GZdQKOW5Exr8S1W24J6OgM1njK8xCRGvAJIL/MxXHf6SkmQKQ=="
+    },
+    "zustand@5.0.14": {
+      "integrity": "sha512-/8tAspM5LMPr28b3fwLYrtdj77ECpfZviaP75CMTnwO8ISyaE4GDIG/9rDDYq/cH9D2Xw2A2RXglLInmVBQB/g=="
     }
   },
   "workspace": {
@@ -739,7 +743,8 @@
         "npm:@types/node@^24.13.2",
         "npm:preact@^10.29.2",
         "npm:typescript@~6.0.2",
-        "npm:vite@^8.1.0"
+        "npm:vite@^8.1.0",
+        "npm:zustand@^5.0.14"
       ]
     }
   }
