@@ -1,11 +1,24 @@
-
-import './app.css'
+import "./app.css";
+import Tabs from "./components/tabs";
+import HabitPage from "./habit/ui/habitPage"
 
 export function App() {
-
   return (
     <>
-    <p>Hello</p>
+      <Tabs
+        tabs={[
+          {
+            key: "habit",
+            label: "Habit",
+            content: <HabitPage />,
+          },
+          {
+            key: "settings",
+            label: "Settings",
+            content: <div>App settings</div>,
+          },
+        ]}
+      />
     </>
-  )
+  );
 }

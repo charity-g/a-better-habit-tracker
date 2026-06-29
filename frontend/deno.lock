@@ -2,7 +2,9 @@
   "version": "5",
   "specifiers": {
     "npm:@preact/preset-vite@^2.10.5": "2.10.5_@babel+core@7.29.7_vite@8.1.0__@types+node@24.13.2_@types+node@24.13.2_preact@10.29.3",
+    "npm:@preact/signals@^2.9.2": "2.9.2_preact@10.29.3",
     "npm:@types/node@^24.13.2": "24.13.2",
+    "npm:idb-keyval@^6.2.5": "6.2.5",
     "npm:preact@^10.29.2": "10.29.3",
     "npm:typescript@~6.0.2": "6.0.3",
     "npm:vite@^8.1.0": "8.1.0_@types+node@24.13.2",
@@ -235,6 +237,16 @@
         "vite",
         "vite-prerender-plugin",
         "zimmerframe"
+      ]
+    },
+    "@preact/signals-core@1.14.3": {
+      "integrity": "sha512-m0K3vnbSLC5rHs2ZVfeAMvBtT1zIyq4mxx5OlNncSgMj5Iz6W5Rn3kPrDxAC+iIKmiVe0lSl6U37t5ZkEWoVAw=="
+    },
+    "@preact/signals@2.9.2_preact@10.29.3": {
+      "integrity": "sha512-DvFPISNMSh3vPqRwPa1tAVAHl85aDq4pTyNu1bTGfrKr64F3EOCHjdUl9aUdohKBf1v9PRGLYuGFcJpfztkdoQ==",
+      "dependencies": [
+        "@preact/signals-core",
+        "preact"
       ]
     },
     "@prefresh/babel-plugin@0.5.3": {
@@ -482,6 +494,9 @@
     "he@1.2.0": {
       "integrity": "sha512-F/1DnUGPopORZi0ni+CvrCgHQ5FyEAHRLSApuYWMmrbSwoN2Mn/7k+Gl38gJnR7yyDZk6WLXwiGod1JOWNDKGw==",
       "bin": true
+    },
+    "idb-keyval@6.2.5": {
+      "integrity": "sha512-eKQkTnS0relYsSOYomx8ozIbmdsQCKUdhyuIaQ2DZgKuaxtyQQMkyD/wlnQN32pO3yutN1b1L8uqwcDKaJd7/Q=="
     },
     "js-tokens@4.0.0": {
       "integrity": "sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ=="
@@ -740,7 +755,9 @@
     "packageJson": {
       "dependencies": [
         "npm:@preact/preset-vite@^2.10.5",
+        "npm:@preact/signals@^2.9.2",
         "npm:@types/node@^24.13.2",
+        "npm:idb-keyval@^6.2.5",
         "npm:preact@^10.29.2",
         "npm:typescript@~6.0.2",
         "npm:vite@^8.1.0",
