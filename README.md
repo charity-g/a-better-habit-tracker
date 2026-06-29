@@ -29,3 +29,8 @@ You want to fork this and create your own?
 - Using elsewhere
 
 ### Customizing
+
+## Developing locally
+
+`npm run dev`
+`deno run dev`
