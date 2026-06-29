@@ -1,10 +1,11 @@
-import { createStore } from "zustand/vanilla";
-import { useStore } from "zustand";
+
 import { type Habit, type HabitLog } from "./habitModel";
 import {
   type AppSettings,
   defaultSettings,
 } from "../model/settings";
+import { del } from "idb-keyval";
+import { applicationStore } from '../store/appStore'
 import { SyncStatus } from "../model/syncStatus";
 
 /* =========================
@@ -28,128 +29,84 @@ export type HabitStore = {
   getLogsForHabit: (habitId: string) => HabitLog[];
   getLogsForDate: (date: string) => HabitLog[];
 
-  markLogSynced: (id: string) => void;
-  markLogError: (id: string) => void;
-
   updateSettings: (updates: Partial<AppSettings>) => void;
 
   resetStore: () => void;
 };
 
-/* =========================
-   Vanilla Store
-========================= */
+// --- Exported Functional HabitStore Implementation ---
+export const habitStore: HabitStore = {
+  get habits() { return applicationStore.habits; },
+  get logs() { return applicationStore.logs; },
+  get settings() { return applicationStore.settings; },
 
-export const habitStore = createStore<HabitStore>((set, get) => ({
-  habits: [],
-  logs: [],
-  settings: defaultSettings,
+  // --- Habit Actions ---
+  addHabit(habit) {
+    applicationStore.habits = [...applicationStore.habits, habit];
+    applicationStore.persistLocally();
+  },
 
-  /* =====================
-     Habits
-  ===================== */
+  updateHabit(id, updates) {
+    applicationStore.habits = applicationStore.habits.map((h) =>
+      h.id === id ? { ...h, ...updates } : h
+    );
+    applicationStore.persistLocally();
+  },
 
-  addHabit: (habit) =>
-    set((s) => ({ habits: [...s.habits, habit] })),
+  archiveHabit(id) {
+    this.updateHabit(id, { archived: true });
+  },
 
-  updateHabit: (id, updates) =>
-    set((s) => ({
-      habits: s.habits.map((h) =>
-        h.id === id ? { ...h, ...updates } : h
-      ),
-    })),
+  deleteHabit(id) {
+    applicationStore.habits = applicationStore.habits.filter((h) => h.id !== id);
+    applicationStore.persistLocally();
+  },
 
-  archiveHabit: (id) =>
-    set((s) => ({
-      habits: s.habits.map((h) =>
-        h.id === id ? { ...h, archived: true } : h
-      ),
-    })),
+  // --- Log Actions ---
+  addLog(log) {
+    applicationStore.logs = [...applicationStore.logs, log];
+    applicationStore.persistLocally();
+    applicationStore.syncPendingLogsWithAPI();
+  },
 
-  deleteHabit: (id) =>
-    set((s) => ({
-      habits: s.habits.filter((h) => h.id !== id),
-      logs: s.logs.filter((l) => l.habitId !== id),
-    })),
+  updateLog(id, updates) {
+    applicationStore.logs = applicationStore.logs.map((l) =>
+      l.id === id ? { ...l, ...updates, syncStatus: SyncStatus.Pending } : l
+    );
+    applicationStore.persistLocally();
+    applicationStore.syncPendingLogsWithAPI();
+  },
 
-  /* =====================
-     Logs
-  ===================== */
+  deleteLog(id) {
+    applicationStore.logs = applicationStore.logs.filter((l) => l.id !== id);
+    applicationStore.persistLocally();
+  },
 
-  addLog: (log) =>
-    set((s) => ({ logs: [...s.logs, log] })),
+  // --- Read Queries ---
+  getLogsForHabit(habitId) {
+    return applicationStore.logs.filter((l) => l.habitId === habitId);
+  },
 
-  updateLog: (id, updates) =>
-    set((s) => ({
-      logs: s.logs.map((l) =>
-        l.id === id ? { ...l, ...updates } : l
-      ),
-    })),
+  getLogsForDate(date) {
+    return applicationStore.logs.filter((l) => l.date === date);
+  },
 
-  deleteLog: (id) =>
-    set((s) => ({
-      logs: s.logs.filter((l) => l.id !== id),
-    })),
+  // --- Settings Actions ---
+  updateSettings(updates) {
+    applicationStore.settings = { ...applicationStore.settings, ...updates };
+    applicationStore.persistLocally();
+  },
 
-  /* =====================
-     Queries
-  ===================== */
-
-  getLogsForHabit: (habitId) =>
-    get().logs.filter((l) => l.habitId === habitId),
-
-  getLogsForDate: (date) =>
-    get().logs.filter((l) => l.date === date),
-
-  /* =====================
-     Sync
-  ===================== */
-
-  markLogSynced: (id) =>
-    set((s) => ({
-      logs: s.logs.map((l) =>
-        l.id === id
-          ? {
-              ...l,
-              syncStatus: SyncStatus.Synced,
-              syncedAt: new Date().toISOString(),
-            }
-          : l
-      ),
-    })),
-
-  markLogError: (id) =>
-    set((s) => ({
-      logs: s.logs.map((l) =>
-        l.id === id
-          ? { ...l, syncStatus: SyncStatus.Error }
-          : l
-      ),
-    })),
-
-  /* =====================
-     Settings
-  ===================== */
-
-  updateSettings: (updates) =>
-    set((s) => ({
-      settings: { ...s.settings, ...updates },
-    })),
-
-  /* =====================
-     Reset
-  ===================== */
-
-  resetStore: () =>
-    set({
-      habits: [],
-      logs: [],
-      settings: defaultSettings,
-    }),
-}));
-
-export function useHabitStore<T>(
-  selector: (state: HabitStore) => T
-) {
-  return useStore(habitStore, selector);
-}
+  // --- Global Reset ---
+  async resetStore() {
+    applicationStore.habits = [];
+    applicationStore.logs = [];
+    applicationStore.settings = defaultSettings;
+    
+    await Promise.all([
+      del("app_habits"),
+      del("app_logs"),
+      del("app_settings")
+    ]);
+  }
+};

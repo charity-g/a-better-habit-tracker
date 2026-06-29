@@ -1,6 +1,6 @@
-import { useState } from "preact/hooks";
+import { useSignal } from "@preact/signals";
 import { type Habit, type HabitLog } from "../habitModel";
-import { useHabitStore } from "../habitStore";
+import {habitStore} from '../habitStore'
 
 function todayDate() {
   return new Date().toISOString().split("T")[0];
@@ -14,13 +14,14 @@ function nowTime() {
 }
 
 export default function HabitPage() {
-  const habits = useHabitStore((s) => s.habits);
-  const addHabit = useHabitStore((s) => s.addHabit);
+  const habits = habitStore.habits;
+  const addHabit = habitStore.addHabit;
 
-  const addLog = useHabitStore((s) => s.addLog);
-  const getLogsForDate = useHabitStore((s) => s.getLogsForDate);
+  const addLog = habitStore.addLog;
+  const getLogsForDate = habitStore.getLogsForDate;
 
-  const [newHabitName, setNewHabitName] = useState("");
+  // 1. Swapped useState for useSignal
+  const newHabitName = useSignal("");
 
   const today = todayDate();
   const todayLogs = getLogsForDate(today);
@@ -46,17 +47,18 @@ export default function HabitPage() {
   }
 
   function handleAddHabit() {
-    if (!newHabitName.trim()) return;
+    // 2. Access and mutate the signal using .value
+    if (!newHabitName.value.trim()) return;
 
     addHabit({
       id: crypto.randomUUID(),
-      name: newHabitName,
+      name: newHabitName.value,
       archived: false,
       createdAt: new Date().toISOString(),
       valueLabels: [],
     });
 
-    setNewHabitName("");
+    newHabitName.value = "";
   }
 
   return (
@@ -109,12 +111,11 @@ export default function HabitPage() {
         <div class="add-row">
           <input
             class="input"
+            // 3. Preact binds directly to the signal object here for high-performance rendering
             value={newHabitName}
             placeholder="Drink water..."
             onInput={(e) =>
-              setNewHabitName(
-                (e.target as HTMLInputElement).value
-              )
+              (newHabitName.value = (e.target as HTMLInputElement).value)
             }
           />
 

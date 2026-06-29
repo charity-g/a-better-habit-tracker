@@ -10,6 +10,8 @@
   },
   "dependencies": {
     "@preact/preset-vite": "^2.10.5",
+    "@preact/signals": "^2.9.2",
+    "idb-keyval": "^6.2.5",
     "preact": "^10.29.2",
     "zustand": "^5.0.14"
   },
