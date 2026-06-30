@@ -31,7 +31,7 @@ const TAB_NAME = "HabitLogs";
 
 // Order matters here and must match appendRows() call sites below.
 function logToRow(log: HabitLog): unknown[] {
-  return [log.id, log.habitId, log.date, log.syncStatus, log.note ?? ""];
+  return [log.id, log.habitId, log.date, log.completed, log.note ?? ""];
 }
 
 // --- The applicationStore Persistence Core ---

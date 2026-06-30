@@ -1,8 +1,8 @@
+import { type SyncStatus } from "./syncStatus";
 
+// function markLogSynced() {
+// // assumes log has 
+//   syncStatus: SyncStatus property;
+// }
 
-function markLogSynced() {
-// assumes log has 
-  syncStatus: SyncStatus property;
-}
-
-function markLogError
+// function markLogError
