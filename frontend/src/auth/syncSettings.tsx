@@ -6,6 +6,7 @@
 
 import { useState } from "preact/hooks";
 import { applicationStore } from "../store/appStore";
+import { signIn as googleSignIn } from "./googleAuth";
 
 function UserIcon() {
   return (
@@ -22,8 +23,19 @@ export function SyncSettings() {
   const auth = applicationStore.googleAuth;
   const sheetName = applicationStore.linkedSpreadsheetName;
   const isConnected = applicationStore.isSyncEnabled;
+  const isSignedIn = auth.status === "signed-in";
 
-  async function handleConnect() {
+  async function handleSignIn() {
+    setBusy(true);
+    setError(null);
+    try {
+      await googleSignIn();
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  async function handlePickSheet() {
     setBusy(true);
     setError(null);
     const result = await applicationStore.connectGoogleSheet();
@@ -68,7 +80,7 @@ export function SyncSettings() {
             <p>
               {isConnected
                 ? `Syncing to ${sheetName}. New logs will keep flowing to that sheet.`
-                : auth.status === "signed-in"
+                : isSignedIn
                   ? "You are signed in. Pick the spreadsheet you want to use next."
                   : "Sign in with Google, then choose a sheet to create the connection."}
             </p>
@@ -76,7 +88,7 @@ export function SyncSettings() {
 
           {isConnected ? (
             <div class="sync-card__actions">
-              <button onClick={handleConnect} disabled={busy}>
+              <button onClick={handlePickSheet} disabled={busy}>
                 {busy ? "Working…" : "Change Google Sheet"}
               </button>
               <button class="secondary" onClick={handleDisconnect} disabled={busy}>
@@ -85,13 +97,15 @@ export function SyncSettings() {
             </div>
           ) : (
             <div class="sync-card__actions">
-              <button onClick={handleConnect} disabled={busy}>
-                {busy
-                  ? "Working…"
-                  : auth.status === "signed-in"
-                    ? "Pick Google Sheet"
-                    : "Sign in with Google"}
-              </button>
+              {isSignedIn ? (
+                <button onClick={handlePickSheet} disabled={busy}>
+                  {busy ? "Working…" : "Pick Google Sheet"}
+                </button>
+              ) : (
+                <button onClick={handleSignIn} disabled={busy}>
+                  {busy ? "Working…" : "Sign in with Google"}
+                </button>
+              )}
             </div>
           )}
 
