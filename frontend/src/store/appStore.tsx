@@ -88,15 +88,19 @@ export const applicationStore = {
   async connectGoogleSheet(): Promise<{ ok: true } | { ok: false; error: string }> {
     try {
       if (googleAuthSignal.value.status !== "signed-in") {
-        await googleSignIn();
-        if (googleAuthSignal.value.status !== "signed-in") {
-          // signIn() already wrote an error state if it failed.
-          const state = googleAuthSignal.value;
-          return {
-            ok: false,
-            error: state.status === "error" ? state.message : "Sign-in was cancelled.",
-          };
-        }
+        await googleSignIn(); // Modifies googleAuthSignal
+      }
+
+      const state = googleAuthSignal.value;
+
+      if (state.status !== "signed-in") {
+        return {
+          ok: false,
+          error:
+            state.status === "error"
+              ? state.message
+              : "Sign-in was cancelled.",
+        };
       }
 
       const picked = await pickExistingSheet();

@@ -249,7 +249,7 @@ export async function pickExistingSheet(): Promise<PickedSheet | null> {
 
   await loadPickerScript();
 
-  return new Promise((resolve, reject) => {
+  return new Promise<PickedSheet | null>((resolve) => {
     const view = new window.google.picker.DocsView(window.google.picker.ViewId.SPREADSHEETS)
       .setMode(window.google.picker.DocsViewMode.LIST);
 
