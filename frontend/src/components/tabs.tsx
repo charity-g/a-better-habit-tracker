@@ -4,7 +4,7 @@ import './tabs.css'
 
 type Tab = {
   key: string;
-  label: string;
+  label: ComponentChildren;
   content: ComponentChildren;
 };
 
@@ -14,9 +14,7 @@ type TabsProps = {
 };
 
 export default function Tabs({ tabs, initialTab }: TabsProps) {
-  const [active, setActive] = useState(
-    initialTab ?? tabs[0]?.key
-  );
+  const [active, setActive] = useState(initialTab ?? tabs[0]?.key);
 
   return (
     <div class="tabs">

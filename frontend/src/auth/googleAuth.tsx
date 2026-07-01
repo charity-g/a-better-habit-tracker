@@ -24,10 +24,6 @@ declare global {
 
 // --- Config -----------------------------------------------------------
 
-// Set these from your Google Cloud Console > APIs & Services > Credentials.
-// The Client ID is NOT a secret — it's safe to ship in client-side code.
-// The API key below is restricted by HTTP referrer in the console and is
-// only used to render the Picker UI; it grants no access on its own.
 export const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID as string;
 export const GOOGLE_PICKER_API_KEY = import.meta.env.VITE_GOOGLE_PICKER_API_KEY as string;
 

@@ -1,0 +1,135 @@
+.app-shell {
+	min-height: 100vh;
+	padding: 1rem;
+	background:
+		radial-gradient(circle at top left, rgba(59, 130, 246, 0.14), transparent 34%),
+		radial-gradient(circle at top right, rgba(16, 185, 129, 0.13), transparent 30%),
+		linear-gradient(180deg, #f8fafc 0%, #eef2f7 100%);
+	color: #0f172a;
+}
+
+.sync-settings {
+	display: grid;
+	gap: 1rem;
+}
+
+.sync-settings__hero {
+	display: grid;
+	gap: 0.8rem;
+	padding: 1.25rem;
+	border: 1px solid rgba(15, 23, 42, 0.08);
+	border-radius: 1.5rem;
+	background: rgba(255, 255, 255, 0.78);
+	backdrop-filter: blur(10px);
+	box-shadow: 0 20px 60px rgba(15, 23, 42, 0.08);
+}
+
+.sync-settings__title-row {
+	display: flex;
+	gap: 0.85rem;
+	align-items: center;
+}
+
+.sync-settings__icon {
+	width: 2.5rem;
+	height: 2.5rem;
+	padding: 0.6rem;
+	border-radius: 999px;
+	background: linear-gradient(135deg, #dbeafe, #dcfce7);
+	color: #0f172a;
+	fill: currentColor;
+	flex: none;
+}
+
+.sync-settings__eyebrow,
+.sync-card__eyebrow {
+	margin: 0;
+	text-transform: uppercase;
+	letter-spacing: 0.12em;
+	font-size: 0.72rem;
+	font-weight: 700;
+	color: #475569;
+}
+
+.sync-settings__hero h2,
+.sync-card h3 {
+	margin: 0;
+	font-size: clamp(1.25rem, 2vw, 1.7rem);
+}
+
+.sync-settings__description,
+.sync-card p {
+	margin: 0;
+	color: #475569;
+	line-height: 1.55;
+}
+
+.sync-settings__grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+	gap: 1rem;
+}
+
+.sync-card {
+	display: grid;
+	gap: 1rem;
+	padding: 1.25rem;
+	border-radius: 1.5rem;
+	border: 1px solid rgba(15, 23, 42, 0.08);
+	box-shadow: 0 16px 40px rgba(15, 23, 42, 0.08);
+}
+
+.sync-card--accent {
+	background: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(239, 246, 255, 0.92));
+}
+
+.sync-card--muted {
+	background: linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(240, 253, 244, 0.9));
+}
+
+.sync-card__copy {
+	display: grid;
+	gap: 0.5rem;
+}
+
+.sync-card__actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.75rem;
+}
+
+.sync-card button {
+	border: none;
+	border-radius: 999px;
+	padding: 0.85rem 1.1rem;
+	background: #0f172a;
+	color: white;
+	font: inherit;
+	font-weight: 600;
+}
+
+.sync-card button.secondary {
+	background: #e2e8f0;
+	color: #0f172a;
+}
+
+.sync-card button:disabled {
+	opacity: 0.65;
+}
+
+.sync-settings__error {
+	margin: 0;
+	color: #b91c1c;
+}
+
+@media (max-width: 640px) {
+	.app-shell {
+		padding: 0.75rem;
+	}
+
+	.sync-settings__hero,
+	.sync-card {
+		padding: 1rem;
+		border-radius: 1.2rem;
+	}
+}
