@@ -66,7 +66,7 @@ export const habitStore: HabitStore = {
   addLog(log) {
     applicationStore.logs = [...applicationStore.logs, log];
     applicationStore.persistLocally();
-    applicationStore.syncPendingLogsWithAPI();
+    applicationStore.syncPendingLogsWithSheets();
   },
 
   updateLog(id, updates) {
@@ -74,7 +74,7 @@ export const habitStore: HabitStore = {
       l.id === id ? { ...l, ...updates, syncStatus: SyncStatus.Pending } : l
     );
     applicationStore.persistLocally();
-    applicationStore.syncPendingLogsWithAPI();
+    applicationStore.syncPendingLogsWithSheets();
   },
 
   deleteLog(id) {
