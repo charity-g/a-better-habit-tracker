@@ -26,6 +26,7 @@ declare global {
 
 export const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID as string;
 export const GOOGLE_PICKER_API_KEY = import.meta.env.VITE_GOOGLE_PICKER_API_KEY as string;
+export const GOOGLE_CLOUD_PROJECT_NUMBER = import.meta.env.VITE_GOOGLE_CLOUD_PROJECT_NUMBER as string | undefined;
 
 // Narrowest scope that can read/write a sheet: app-created or user-picked
 // files only. Do NOT broaden this to `spreadsheets` or `drive` without a
@@ -219,6 +220,7 @@ export interface PickedSheet {
   id: string;
   name: string;
   url: string;
+  mimeType?: string;
 }
 
 /**
@@ -247,21 +249,32 @@ export async function pickExistingSheet(): Promise<PickedSheet | null> {
 
   return new Promise<PickedSheet | null>((resolve) => {
     const view = new window.google.picker.DocsView(window.google.picker.ViewId.SPREADSHEETS)
-      .setMode(window.google.picker.DocsViewMode.LIST);
+      .setMode(window.google.picker.DocsViewMode.LIST)
+      .setMimeTypes("application/vnd.google-apps.spreadsheet");
 
-    const picker = new window.google.picker.PickerBuilder()
+    const pickerBuilder = new window.google.picker.PickerBuilder()
       .addView(view)
       .setOAuthToken(token)
       .setDeveloperKey(GOOGLE_PICKER_API_KEY)
       .setCallback((data: any) => {
         if (data.action === window.google.picker.Action.PICKED) {
           const doc = data.docs[0];
-          resolve({ id: doc.id, name: doc.name, url: doc.url });
+          resolve({
+            id: doc.id,
+            name: doc.name,
+            url: doc.url,
+            mimeType: doc.mimeType,
+          });
         } else if (data.action === window.google.picker.Action.CANCEL) {
           resolve(null);
         }
-      })
-      .build();
+      });
+
+    if (GOOGLE_CLOUD_PROJECT_NUMBER) {
+      pickerBuilder.setAppId(GOOGLE_CLOUD_PROJECT_NUMBER);
+    }
+
+    const picker = pickerBuilder.build();
 
     picker.setVisible(true);
   }).catch((err) => {

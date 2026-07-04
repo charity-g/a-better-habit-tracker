@@ -11,6 +11,30 @@
 // the caller's job, via getValidAccessToken()).
 
 const SHEETS_API_BASE = "https://sheets.googleapis.com/v4/spreadsheets";
+const RETRYABLE_STATUS = new Set([429, 500, 502, 503, 504]);
+
+function delay(ms: number): Promise<void> {
+  return new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  });
+}
+
+function formatSheetsError(bodyText: string, fallback: string): string {
+  if (!bodyText) return fallback;
+
+  try {
+    const parsed = JSON.parse(bodyText);
+    const apiMessage = parsed?.error?.message;
+    if (typeof apiMessage === "string" && apiMessage.trim().length > 0) {
+      return apiMessage;
+    }
+  } catch {
+    // Body was not JSON; fall back to raw text below.
+  }
+
+  return bodyText;
+}
+
 export class SheetsApiError extends Error {
   public status: number;
   public isAuthError: boolean;
@@ -29,26 +53,46 @@ export class SheetsApiError extends Error {
 }
 
 async function sheetsFetch(url: string, accessToken: string, init?: RequestInit) {
-  const response = await fetch(url, {
-    ...init,
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-      "Content-Type": "application/json",
-      ...init?.headers,
-    },
-  });
+  const method = init?.method ?? "GET";
+  const maxAttempts = 3;
 
-  if (!response.ok) {
+  for (let attempt = 1; attempt <= maxAttempts; attempt += 1) {
+    const response = await fetch(url, {
+      ...init,
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        ...(init?.body ? { "Content-Type": "application/json" } : {}),
+        ...init?.headers,
+      },
+    });
+
+    if (response.ok) {
+      return response.json();
+    }
+
     const body = await response.text().catch(() => "");
     const isAuthError = response.status === 401 || response.status === 403;
+    const message = formatSheetsError(body, response.statusText || "Request failed");
+
+    if (attempt < maxAttempts && RETRYABLE_STATUS.has(response.status)) {
+      // Exponential backoff with small jitter for transient Google API errors.
+      const backoffMs = Math.min(2000, 300 * 2 ** (attempt - 1)) + Math.floor(Math.random() * 150);
+      await delay(backoffMs);
+      continue;
+    }
+
     throw new SheetsApiError(
-      `Sheets API error ${response.status}: ${body || response.statusText}`,
+      `Sheets API ${method} ${url} failed (${response.status}): ${message}`,
       response.status,
       isAuthError,
     );
   }
 
-  return response.json();
+  throw new SheetsApiError(
+    `Sheets API ${method} ${url} failed after retries.`,
+    500,
+    false,
+  );
 }
 
 /**
@@ -61,7 +105,8 @@ export async function ensureSheetTabExists(
   accessToken: string,
   tabName: string,
 ): Promise<void> {
-  const meta = await sheetsFetch(`${SHEETS_API_BASE}/${spreadsheetId}`, accessToken);
+  const fields = encodeURIComponent("sheets.properties.title");
+  const meta = await sheetsFetch(`${SHEETS_API_BASE}/${spreadsheetId}?fields=${fields}`, accessToken);
   const exists = meta.sheets?.some((s: any) => s.properties?.title === tabName);
   if (exists) return;
 
