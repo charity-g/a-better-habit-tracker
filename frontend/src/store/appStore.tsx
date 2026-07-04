@@ -107,6 +107,12 @@ export const applicationStore = {
       if (!picked) {
         return { ok: false, error: "No sheet selected." };
       }
+      if (picked.mimeType && picked.mimeType !== "application/vnd.google-apps.spreadsheet") {
+        return {
+          ok: false,
+          error: "Please pick a Google Sheets file (not Excel/CSV).",
+        };
+      }
 
       const token = await getValidAccessToken();
       if (!token) {
