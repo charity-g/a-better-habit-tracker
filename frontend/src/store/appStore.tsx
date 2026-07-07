@@ -28,6 +28,7 @@ const linkedSpreadsheetIdSignal = signal<string | null>(null);
 const linkedSpreadsheetNameSignal = signal<string | null>(null);
 
 const TAB_NAME = "HabitLogs";
+let initializePromise: Promise<void> | null = null;
 
 // Order matters here and must match appendRows() call sites below.
 function logToRow(log: HabitLog): unknown[] {
@@ -231,42 +232,50 @@ export const applicationStore = {
    * Boots the engine up, loads IndexedDB indexes, and connects internet monitors
    */
   async initialize() {
-    const [cachedHabits, cachedLogs, cachedSettings, cachedSpreadsheet] = await Promise.all([
-      get<Habit[]>("app_habits"),
-      get<HabitLog[]>("app_logs"),
-      get<AppSettings>("app_settings"),
-      get<{ id: string; name: string }>("app_linked_spreadsheet"),
-    ]);
-
-    habitsSignal.value = cachedHabits ?? [];
-    logsSignal.value = cachedLogs ?? [];
-    settingsSignal.value = cachedSettings ?? defaultSettings;
-
-    if (cachedSpreadsheet) {
-      linkedSpreadsheetIdSignal.value = cachedSpreadsheet.id;
-      linkedSpreadsheetNameSignal.value = cachedSpreadsheet.name;
+    if (initializePromise) {
+      return initializePromise;
     }
 
-    // Note: we deliberately do NOT attempt to silently re-authenticate with
-    // Google on boot. GIS access tokens aren't persisted (by design — see
-    // googleAuth.ts), so after a reload the user is "signed out" of Google
-    // even though their spreadsheet link is remembered. The UI should show
-    // a "Reconnect to resume syncing" affordance rather than this module
-    // popping a consent screen unprompted on every page load.
+    initializePromise = (async () => {
+      const [cachedHabits, cachedLogs, cachedSettings, cachedSpreadsheet] = await Promise.all([
+        get<Habit[]>("app_habits"),
+        get<HabitLog[]>("app_logs"),
+        get<AppSettings>("app_settings"),
+        get<{ id: string; name: string }>("app_linked_spreadsheet"),
+      ]);
 
-    if (typeof window !== "undefined") {
-      window.addEventListener("online", () => {
-        isOnlineSignal.value = true;
+      habitsSignal.value = cachedHabits ?? [];
+      logsSignal.value = cachedLogs ?? [];
+      settingsSignal.value = cachedSettings ?? defaultSettings;
+
+      if (cachedSpreadsheet) {
+        linkedSpreadsheetIdSignal.value = cachedSpreadsheet.id;
+        linkedSpreadsheetNameSignal.value = cachedSpreadsheet.name;
+      }
+
+      // Note: we deliberately do NOT attempt to silently re-authenticate with
+      // Google on boot. GIS access tokens aren't persisted (by design — see
+      // googleAuth.ts), so after a reload the user is "signed out" of Google
+      // even though their spreadsheet link is remembered. The UI should show
+      // a "Reconnect to resume syncing" affordance rather than this module
+      // popping a consent screen unprompted on every page load.
+
+      if (typeof window !== "undefined") {
+        window.addEventListener("online", () => {
+          isOnlineSignal.value = true;
+          this.syncPendingLogsWithSheets();
+        });
+
+        window.addEventListener("offline", () => {
+          isOnlineSignal.value = false;
+        });
+      }
+
+      if (isOnlineSignal.value) {
         this.syncPendingLogsWithSheets();
-      });
+      }
+    })();
 
-      window.addEventListener("offline", () => {
-        isOnlineSignal.value = false;
-      });
-    }
-
-    if (isOnlineSignal.value) {
-      this.syncPendingLogsWithSheets();
-    }
+    return initializePromise;
   },
 };
