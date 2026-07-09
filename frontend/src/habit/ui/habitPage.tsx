@@ -1,6 +1,7 @@
 import { useSignal } from "@preact/signals";
 import { type Habit, type HabitLog } from "../habitModel";
 import {habitStore} from '../habitStore'
+import { applicationStore } from "../../store/appStore";
 
 function todayDate() {
   return new Date().toISOString().split("T")[0];
@@ -13,9 +14,18 @@ function nowTime() {
   });
 }
 
+function SheetsIcon() {
+  return (
+    <svg class="today-sync__icon" viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M7 3.5h7.2L19 8.3V20.5H7A2.5 2.5 0 0 1 4.5 18V6A2.5 2.5 0 0 1 7 3.5Zm6.2 1.7V8h2.8l-2.8-2.8ZM8 10.5h8v1.5H8v-1.5Zm0 3.5h8v1.5H8V14Zm0 3.5h5.5V19H8v-1.5Z" />
+    </svg>
+  );
+}
+
 export default function HabitPage() {
   const habits = habitStore.habits;
   const addHabit = habitStore.addHabit;
+  const canSyncWithSheets = applicationStore.isSyncEnabled;
 
   const addLog = habitStore.addLog;
   const getLogsForDate = habitStore.getLogsForDate;
@@ -61,16 +71,35 @@ export default function HabitPage() {
     newHabitName.value = "";
   }
 
+  function handleSyncWithSheets() {
+    if (!canSyncWithSheets) return;
+
+    applicationStore.syncPendingLogsWithSheets();
+  }
+
   return (
     <div class="page">
       {/* Header */}
       <header class="header">
-        <h1>Today</h1>
+        <div class="header__copy">
+          <h1>Today</h1>
 
-        <div class="datetime">
-          <div>{today}</div>
-          <div>{nowTime()}</div>
+          <div class="datetime">
+            <div>{today}</div>
+            <div>{nowTime()}</div>
+          </div>
         </div>
+
+        <button
+          type="button"
+          class="today-sync-button"
+          onClick={handleSyncWithSheets}
+          disabled={!canSyncWithSheets}
+          title={canSyncWithSheets ? "Sync pending logs to Google Sheets" : "Connect Google Sheets in App Settings first"}
+        >
+          <SheetsIcon />
+          <span>Sync with Google Sheets</span>
+        </button>
       </header>
 
       {/* Habits */}
