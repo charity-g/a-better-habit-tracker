@@ -127,7 +127,7 @@ export const applicationStore = {
       await set("app_linked_spreadsheet", { id: picked.id, name: picked.name });
 
       // Now that we have somewhere to write, push anything already pending.
-      this.syncPendingLogsWithSheets();
+      await this.syncPendingLogsWithSheets();
 
       return { ok: true };
     } catch (err) {

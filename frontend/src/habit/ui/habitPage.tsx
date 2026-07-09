@@ -2,6 +2,7 @@ import { useSignal } from "@preact/signals";
 import { type Habit, type HabitLog } from "../habitModel";
 import {habitStore} from '../habitStore'
 import { applicationStore } from "../../store/appStore";
+import { signIn as googleSignIn } from "../../auth/googleAuth";
 
 function todayDate() {
   return new Date().toISOString().split("T")[0];
@@ -25,7 +26,14 @@ function SheetsIcon() {
 export default function HabitPage() {
   const habits = habitStore.habits;
   const addHabit = habitStore.addHabit;
-  const canSyncWithSheets = applicationStore.isSyncEnabled;
+  const authStatus = applicationStore.googleAuth.status;
+  const hasLinkedSheet = applicationStore.linkedSpreadsheetId !== null;
+  const isSignedIn = authStatus === "signed-in";
+  const syncButtonLabel = hasLinkedSheet
+    ? isSignedIn
+      ? "Sync with Google Sheets"
+      : "Reconnect and sync"
+    : "Connect Google Sheets";
 
   const addLog = habitStore.addLog;
   const getLogsForDate = habitStore.getLogsForDate;
@@ -71,10 +79,16 @@ export default function HabitPage() {
     newHabitName.value = "";
   }
 
-  function handleSyncWithSheets() {
-    if (!canSyncWithSheets) return;
+  async function handleSyncWithSheets() {
+    if (!hasLinkedSheet) return;
 
-    applicationStore.syncPendingLogsWithSheets();
+    if (!isSignedIn) {
+      await googleSignIn();
+    }
+
+    if (applicationStore.googleAuth.status !== "signed-in") return;
+
+    await applicationStore.syncPendingLogsWithSheets();
   }
 
   return (
@@ -94,11 +108,17 @@ export default function HabitPage() {
           type="button"
           class="today-sync-button"
           onClick={handleSyncWithSheets}
-          disabled={!canSyncWithSheets}
-          title={canSyncWithSheets ? "Sync pending logs to Google Sheets" : "Connect Google Sheets in App Settings first"}
+          disabled={!hasLinkedSheet}
+          title={
+            hasLinkedSheet
+              ? isSignedIn
+                ? "Sync pending logs to Google Sheets"
+                : "Reconnect your Google session, then sync pending logs"
+              : "Connect Google Sheets in App Settings first"
+          }
         >
           <SheetsIcon />
-          <span>Sync with Google Sheets</span>
+          <span>{syncButtonLabel}</span>
         </button>
       </header>
 
