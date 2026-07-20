@@ -16,6 +16,17 @@ The app is split into modules. Each module is droppable or addable to your stati
 - Google Calendar Integrations
     - WISHLIST TODO
 
+It works in layers. Each module stores directly into the indexedDB of the local browser.
+- this indexedDb is also copied directly to a google sheets api 
+
+On app startup or new item added, it will check if the user is logged in or has wifi.
+- if either of those conditions are not met, it is unable to copy directly to google sheets api, it will do so when it gets back online
+
+- then it will only store today's habits in indexedDb for sync
+
+- it also handles if today's/yesterdays/ any day's items have been deleted and this delete needs to be synced
+- you can lock days to not be editable
+
 ## I want this for myself too!
 You want to fork this and create your own?
 
